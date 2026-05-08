@@ -411,13 +411,13 @@ p{ margin:0; }
   max-width:var(--maxw); margin:0 auto; padding:0 var(--pad-x);
 }
 .mg-stage{
-  position:relative; height:310px;
+  position:relative; height:500px;
   display:flex; align-items:center; justify-content:center;
   overflow:hidden;
 }
 .mg-card{
   position:absolute;
-  width:480px; height:270px; border-radius:16px;
+  width:780px; height:438px; border-radius:16px;
   overflow:hidden; cursor:pointer; background:var(--bg-3);
   transition:transform .5s cubic-bezier(.4,0,.2,1),
              opacity   .5s cubic-bezier(.4,0,.2,1),
@@ -458,7 +458,7 @@ p{ margin:0; }
 }
 .mg-card__title{ font-size:18px; font-weight:500; color:#fff; letter-spacing:-0.01em; }
 .mg-arrow{
-  position:absolute; top:155px; transform:translateY(-50%); z-index:10;
+  position:absolute; top:250px; transform:translateY(-50%); z-index:10;
   width:44px; height:44px; border-radius:50%; cursor:pointer;
   background:rgba(255,255,255,.1);
   border:1px solid rgba(255,255,255,.25);
@@ -470,8 +470,8 @@ p{ margin:0; }
 }
 .mg-arrow:hover{ background:rgba(255,255,255,.22); transform:translateY(-50%) scale(1.1); }
 .mg-arrow svg{ width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
-.mg-arrow--prev{ left:calc(50% - 228px); }
-.mg-arrow--next{ right:calc(50% - 228px); }
+.mg-arrow--prev{ left:calc(50% - 368px); }
+.mg-arrow--next{ right:calc(50% - 368px); }
 .mg-dots{
   display:flex; align-items:center; justify-content:center;
   gap:8px; margin-top:28px;
@@ -482,19 +482,26 @@ p{ margin:0; }
   transition:all .4s cubic-bezier(.4,0,.2,1); border:none; padding:0;
 }
 .mg-dot.is-active{ width:28px; background:#fff; }
-@media(max-width:900px){
-  .mg-stage{ height:220px; }
-  .mg-card{ width:340px; height:191px; }
-  .mg-arrow{ top:110px; }
-  .mg-arrow--prev{ left:calc(50% - 158px); }
-  .mg-arrow--next{ right:calc(50% - 158px); }
+@media(max-width:1100px){
+  .mg-stage{ height:380px; }
+  .mg-card{ width:580px; height:326px; }
+  .mg-arrow{ top:190px; }
+  .mg-arrow--prev{ left:calc(50% - 278px); }
+  .mg-arrow--next{ right:calc(50% - 278px); }
 }
-@media(max-width:600px){
-  .mg-stage{ height:186px; }
-  .mg-card{ width:280px; height:158px; }
-  .mg-arrow{ top:93px; }
-  .mg-arrow--prev{ left:calc(50% - 128px); }
-  .mg-arrow--next{ right:calc(50% - 128px); }
+@media(max-width:760px){
+  .mg-stage{ height:260px; }
+  .mg-card{ width:380px; height:214px; }
+  .mg-arrow{ top:130px; }
+  .mg-arrow--prev{ left:calc(50% - 178px); }
+  .mg-arrow--next{ right:calc(50% - 178px); }
+}
+@media(max-width:500px){
+  .mg-stage{ height:200px; }
+  .mg-card{ width:300px; height:169px; }
+  .mg-arrow{ top:100px; }
+  .mg-arrow--prev{ left:calc(50% - 138px); }
+  .mg-arrow--next{ right:calc(50% - 138px); }
 }
 
 /* Short Form — portrait tiles */
@@ -1429,9 +1436,9 @@ function initMgCarousel(){
       const dir = pos >= 0 ? 1 : -1;
       let tx, scale, opacity, zi;
       if      (abs === 0) { tx = 0;        scale = 1;    opacity = 1;    zi = 5; }
-      else if (abs === 1) { tx = dir*355;  scale = 0.72; opacity = 0.55; zi = 3; }
-      else if (abs === 2) { tx = dir*630;  scale = 0.52; opacity = mob ? 0 : 0.22; zi = 1; }
-      else                { tx = dir*900;  scale = 0.4;  opacity = 0;    zi = 0; }
+      else if (abs === 1) { tx = dir*570;  scale = 0.72; opacity = 0.55; zi = 3; }
+      else if (abs === 2) { tx = dir*1000; scale = 0.52; opacity = mob ? 0 : 0.22; zi = 1; }
+      else                { tx = dir*1400; scale = 0.4;  opacity = 0;    zi = 0; }
       card.style.cssText += `;transform:translateX(${tx}px) scale(${scale});opacity:${opacity};z-index:${zi}`;
       card.classList.toggle("is-active", abs === 0);
     });
