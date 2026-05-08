@@ -192,7 +192,7 @@ p{ margin:0; }
   position:relative; overflow:hidden;
 }
 .hero__comp{
-  --w: clamp(320px, min(44vw,50vh), 540px);
+  --w: clamp(380px, min(52vw,58vh), 640px);
   width:var(--w); margin:0 auto;
   position:relative; z-index:1;
   display:flex; flex-direction:column; align-items:center;
@@ -200,37 +200,38 @@ p{ margin:0; }
 }
 .hero__comp-portrait{
   width:100%; height:auto; display:block;
-  position:relative; z-index:1;
+  position:relative; z-index:2;
   -webkit-mask-image:linear-gradient(to bottom, #000 44%, transparent 88%);
           mask-image:linear-gradient(to bottom, #000 44%, transparent 88%);
   filter:grayscale(1) drop-shadow(0 28px 64px rgba(0,0,0,.6));
 }
 .hero__comp-tag{
-  position:relative; z-index:2;
+  position:relative; z-index:3;
   text-align:center; margin-top:-10%;
   line-height:1.0;
 }
 .hero__comp-tag-line1{
-  display:block; font-size:clamp(13px,1.8vw,22px); font-weight:500;
-  color:var(--fg-dim); letter-spacing:.12em; text-transform:uppercase;
+  display:block; font-size:clamp(20px,2.8vw,38px); font-weight:600;
+  color:var(--fg-dim); letter-spacing:.1em; text-transform:uppercase;
   margin-bottom:6px;
 }
 .hero__comp-tag-line2{
   display:block; font-size:clamp(42px,7vw,96px); font-weight:800;
   letter-spacing:-0.04em; line-height:.92; color:var(--fg);
+  white-space:nowrap;
 }
 .hero__comp-tag-line2 .accent-word{
   color:var(--accent); font-style:normal; font-weight:800;
 }
-/* Icon scatter — radius 0.48×--w, polar coords centred at (0.5, 0.25) of portrait */
-.hero__comp .float-icon{ position:absolute; }
-.hero__comp .float-icon--ae{ top:calc( 0.086*var(--w)); left:calc(-0.053*var(--w)); }
-.hero__comp .float-icon--ai{ top:calc(-0.246*var(--w)); left:calc( 0.180*var(--w)); }
-.hero__comp .float-icon--pr{ top:calc(-0.310*var(--w)); left:calc( 0.420*var(--w)); }
-.hero__comp .float-icon--dr{ top:calc(-0.246*var(--w)); left:calc( 0.660*var(--w)); }
-.hero__comp .float-icon--hf{ top:calc( 0.086*var(--w)); left:calc( 0.893*var(--w)); }
+/* Icons in a horizontal row behind the portrait (z-index:1 < portrait z-index:2) */
+.hero__comp .float-icon{ position:absolute; z-index:1; }
+.hero__comp .float-icon--ae{ top:calc(0.22*var(--w)); left:calc(-0.18*var(--w)); }
+.hero__comp .float-icon--ai{ top:calc(0.20*var(--w)); left:calc( 0.10*var(--w)); }
+.hero__comp .float-icon--pr{ top:calc(0.18*var(--w)); left:calc( 0.42*var(--w)); }
+.hero__comp .float-icon--dr{ top:calc(0.20*var(--w)); left:calc( 0.74*var(--w)); }
+.hero__comp .float-icon--hf{ top:calc(0.22*var(--w)); left:calc( 1.02*var(--w)); }
 @media (max-width:600px){
-  .hero__comp{ --w:clamp(240px,78vw,320px); }
+  .hero__comp{ --w:clamp(260px,82vw,360px); }
   .hero__comp .float-icon{ width:38px; height:38px; font-size:12px; border-radius:8px; }
 }
 .hero::before{
@@ -297,7 +298,7 @@ p{ margin:0; }
 .float-icon--pr{ background:linear-gradient(145deg,#0e0035,#2a0075); color:#9999ff; animation:fi-a 4.2s ease-in-out infinite; }
 .float-icon--ae{ background:linear-gradient(145deg,#0b0035,#190068); color:#8a8aff; animation:fi-b 3.9s ease-in-out infinite .7s; }
 .float-icon--ai{ background:linear-gradient(145deg,#3c0e00,#7d2e00); color:#ff9a00; animation:fi-c 4.7s ease-in-out infinite 1.2s; }
-.float-icon--dr{ background:linear-gradient(145deg,#1a0025,#3d0060); color:#c83232; animation:fi-a 5.1s ease-in-out infinite .4s; }
+.float-icon--dr{ background:linear-gradient(145deg,#0a0a14,#161628); color:#e87535; animation:fi-a 5.1s ease-in-out infinite .4s; }
 .float-icon--hf{ background:linear-gradient(145deg,#0d0d1e,#1e1b4b); color:#7c6cf6; animation:fi-b 4.5s ease-in-out infinite 1.0s; }
 @keyframes fi-a{
   0%,100%{ transform:translateY(0)   rotate(-4deg) perspective(280px) rotateX(8deg);  }
@@ -712,7 +713,7 @@ p{ margin:0; }
     <div class="float-icon float-icon--ae" aria-hidden="true">Ae</div>
     <div class="float-icon float-icon--ai" aria-hidden="true">Ai</div>
     <div class="float-icon float-icon--pr" aria-hidden="true">Pr</div>
-    <div class="float-icon float-icon--dr" aria-hidden="true">Dr</div>
+    <div class="float-icon float-icon--dr" aria-hidden="true">Da</div>
     <div class="float-icon float-icon--hf" aria-hidden="true">HF</div>
   </div>
 
