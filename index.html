@@ -192,6 +192,20 @@ p{ margin:0; }
   display:flex; flex-direction:column; justify-content:space-between;
   position:relative; overflow:hidden;
 }
+.hero__portrait{
+  position:absolute; right:0; top:0;
+  height:100%; width:auto; max-width:44vw;
+  object-fit:contain; object-position:right top;
+  z-index:0; pointer-events:none;
+  -webkit-mask-image:linear-gradient(to bottom, #000 50%, transparent 94%);
+          mask-image:linear-gradient(to bottom, #000 50%, transparent 94%);
+}
+@media (max-width:900px){
+  .hero__portrait{ max-width:60vw; opacity:.25; }
+}
+@media (max-width:600px){
+  .hero__portrait{ display:none; }
+}
 .hero::before{
   content:""; position:absolute; left:50%; top:35%; transform:translate(-50%,-50%);
   width:1100px; height:1100px; border-radius:50%; pointer-events:none;
@@ -605,6 +619,7 @@ p{ margin:0; }
      HERO
 ============================================================ -->
 <section class="hero" data-section-bg="#080808">
+  <img class="hero__portrait" src="assets/portrait.webp" alt="Bryan Chadwick" loading="eager" decoding="async" width="700" height="700" />
   <div class="hero__top">
     <div class="col"><span>Motion Graphics Editor</span><span style="margin-top:6px;">Brooklyn · NYC</span></div>
     <div class="col" style="text-align:center;"><span>Portfolio · Vol. 04</span><span style="margin-top:6px;">2018 — 2026</span></div>
@@ -1025,6 +1040,7 @@ function initHero(){
 
   gsap.from(sub, { opacity: 0, y: 24, duration: 0.9, ease: ANIM.reveal.ease, delay: startDelay + 0.5 });
   gsap.from(tops, { opacity: 0, y: 8, duration: 0.6, stagger: 0.04, delay: startDelay + 0.2 });
+  gsap.from(".hero__portrait", { opacity: 0, x: 40, duration: 1.6, ease: ANIM.reveal.ease, delay: startDelay + 0.1 });
 
   // 'rhythm' wobble — subtle weight shift on a loop
   const word = h1.querySelector("[data-wobble]");
