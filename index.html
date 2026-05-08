@@ -497,6 +497,47 @@ p{ margin:0; }
   transition:all .4s cubic-bezier(.4,0,.2,1); border:none; padding:0;
 }
 .mg-dot.is-active{ width:28px; background:#fff; }
+/* Play button on active card */
+.mg-card__play{
+  position:absolute; inset:0; z-index:3;
+  display:flex; align-items:center; justify-content:center;
+  background:none; border:none; cursor:pointer;
+  opacity:0; transition:opacity .3s;
+}
+.mg-card__play svg{ width:64px; height:64px; filter:drop-shadow(0 4px 16px rgba(0,0,0,.5)); transition:transform .3s; }
+.mg-card.is-active .mg-card__play{ opacity:1; }
+.mg-card.is-active:hover .mg-card__play svg{ transform:scale(1.1); }
+/* Lightbox modal */
+.mg-modal{
+  position:fixed; inset:0; z-index:2000;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none;
+  transition:opacity .35s;
+}
+.mg-modal.is-open{ opacity:1; pointer-events:all; }
+.mg-modal__bd{
+  position:absolute; inset:0;
+  background:rgba(0,0,0,.88);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+}
+.mg-modal__wrap{
+  position:relative; z-index:1;
+  width:min(940px,92vw); aspect-ratio:16/9;
+}
+.mg-modal__wrap iframe{
+  width:100%; height:100%; border:0;
+  border-radius:14px;
+  box-shadow:0 24px 80px rgba(0,0,0,.6);
+}
+.mg-modal__close{
+  position:absolute; top:-48px; right:0;
+  width:36px; height:36px; border-radius:50%;
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25);
+  color:#fff; font-size:20px; cursor:pointer; line-height:1;
+  display:flex; align-items:center; justify-content:center;
+  transition:background .2s;
+}
+.mg-modal__close:hover{ background:rgba(255,255,255,.25); }
 @media(max-width:1100px){
   .mg-stage{ height:380px; }
   .mg-card{ width:580px; height:326px; }
@@ -1238,6 +1279,15 @@ p{ margin:0; }
   </div>
 </section>
 
+<!-- Video lightbox -->
+<div class="mg-modal" id="mgModal" role="dialog" aria-modal="true" aria-label="Video player">
+  <div class="mg-modal__bd"></div>
+  <div class="mg-modal__wrap">
+    <button class="mg-modal__close" id="mgModalClose" aria-label="Close">✕</button>
+    <iframe id="mgFrame" src="" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
+  </div>
+</div>
+
 </main>
 
 <!-- ============================================================
@@ -1469,20 +1519,41 @@ function initMgCarousel(){
   if (!stage) return;
 
   const videos = [
-    { title:"Air Pulse Campaign",    tag:"Brand Film",   src:"https://picsum.photos/seed/mg1/960/540"  },
-    { title:"Echo — Title Sequence", tag:"Title Design", src:"https://picsum.photos/seed/mg2/960/540"  },
-    { title:"Mercury, Falling",      tag:"Title Design", src:"https://picsum.photos/seed/mg3/960/540"  },
-    { title:"Steady Hands",          tag:"Brand Film",   src:"https://picsum.photos/seed/mg4/960/540"  },
-    { title:"Quiet Power",           tag:"Commercial",   src:"https://picsum.photos/seed/mg5/960/540"  },
+    { title:"Motion Reel 2024",      tag:"Motion Graphics", src:"https://img.youtube.com/vi/qFirh0wu-Fw/maxresdefault.jpg", youtubeId:"qFirh0wu-Fw" },
+    { title:"Echo — Title Sequence", tag:"Title Design",    src:"https://picsum.photos/seed/mg2/960/540"  },
+    { title:"Mercury, Falling",      tag:"Title Design",    src:"https://picsum.photos/seed/mg3/960/540"  },
+    { title:"Steady Hands",          tag:"Brand Film",      src:"https://picsum.photos/seed/mg4/960/540"  },
+    { title:"Quiet Power",           tag:"Commercial",      src:"https://picsum.photos/seed/mg5/960/540"  },
   ];
+
+  // Lightbox helpers
+  const modal   = document.getElementById("mgModal");
+  const iframe  = document.getElementById("mgFrame");
+  const closeBtn= document.getElementById("mgModalClose");
+  function openVideo(id){
+    iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+    modal.classList.add("is-open");
+  }
+  function closeVideo(){
+    modal.classList.remove("is-open");
+    iframe.src = "";
+  }
+  if (closeBtn) closeBtn.addEventListener("click", closeVideo);
+  if (modal)    modal.querySelector(".mg-modal__bd").addEventListener("click", closeVideo);
 
   let active = 0;
 
   videos.forEach((v, i) => {
     const card = document.createElement("div");
     card.className = "mg-card";
-    card.innerHTML = `<img src="${v.src}" alt="${v.title}" loading="lazy" /><div class="mg-card__info"><div class="mg-card__tag">${v.tag}</div><div class="mg-card__title">${v.title}</div></div>`;
-    card.addEventListener("click", () => { if (i !== active) goTo(i); });
+    const playBtn = v.youtubeId
+      ? `<button class="mg-card__play" aria-label="Play video"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="white" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="white"/></svg></button>`
+      : "";
+    card.innerHTML = `<img src="${v.src}" alt="${v.title}" loading="lazy" />${playBtn}<div class="mg-card__info"><div class="mg-card__tag">${v.tag}</div><div class="mg-card__title">${v.title}</div></div>`;
+    card.addEventListener("click", () => {
+      if (i !== active) { goTo(i); return; }
+      if (v.youtubeId)  { openVideo(v.youtubeId); }
+    });
     stage.appendChild(card);
 
     const dot = document.createElement("button");
