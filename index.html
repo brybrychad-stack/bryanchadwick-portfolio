@@ -192,7 +192,7 @@ p{ margin:0; }
   position:relative; overflow:hidden;
 }
 .hero__comp{
-  --w: clamp(300px, 40vw, 500px);
+  --w: clamp(320px, min(44vw,50vh), 540px);
   width:var(--w); margin:0 auto;
   position:relative; z-index:1;
   display:flex; flex-direction:column; align-items:center;
@@ -201,28 +201,37 @@ p{ margin:0; }
 .hero__comp-portrait{
   width:100%; height:auto; display:block;
   position:relative; z-index:1;
-  -webkit-mask-image:linear-gradient(to bottom, #000 42%, transparent 86%);
-          mask-image:linear-gradient(to bottom, #000 42%, transparent 86%);
-  filter:drop-shadow(0 24px 60px rgba(0,0,0,.55));
+  -webkit-mask-image:linear-gradient(to bottom, #000 44%, transparent 88%);
+          mask-image:linear-gradient(to bottom, #000 44%, transparent 88%);
+  filter:grayscale(1) drop-shadow(0 28px 64px rgba(0,0,0,.6));
 }
 .hero__comp-tag{
   position:relative; z-index:2;
-  text-align:center; margin-top:-13%;
-  font-size:clamp(20px,2.4vw,32px); font-weight:700;
-  letter-spacing:-0.025em; line-height:1.1; color:var(--fg);
+  text-align:center; margin-top:-10%;
+  line-height:1.0;
 }
-.hero__comp-tag .accent-word{
-  color:var(--accent); font-style:italic; font-weight:500;
+.hero__comp-tag-line1{
+  display:block; font-size:clamp(13px,1.8vw,22px); font-weight:500;
+  color:var(--fg-dim); letter-spacing:.12em; text-transform:uppercase;
+  margin-bottom:6px;
 }
+.hero__comp-tag-line2{
+  display:block; font-size:clamp(42px,7vw,96px); font-weight:800;
+  letter-spacing:-0.04em; line-height:.92; color:var(--fg);
+}
+.hero__comp-tag-line2 .accent-word{
+  color:var(--accent); font-style:normal; font-weight:800;
+}
+/* Icon scatter — radius 0.48×--w, polar coords centred at (0.5, 0.25) of portrait */
 .hero__comp .float-icon{ position:absolute; }
-.hero__comp .float-icon--ae{ top:calc(0.126*var(--w)); left:calc(0.122*var(--w)); }
-.hero__comp .float-icon--ai{ top:calc(-0.10*var(--w));  left:calc(0.279*var(--w)); }
-.hero__comp .float-icon--pr{ top:calc(-0.143*var(--w)); left:calc(0.441*var(--w)); }
-.hero__comp .float-icon--dr{ top:calc(-0.10*var(--w));  left:calc(0.603*var(--w)); }
-.hero__comp .float-icon--hf{ top:calc(0.126*var(--w));  left:calc(0.759*var(--w)); }
+.hero__comp .float-icon--ae{ top:calc( 0.086*var(--w)); left:calc(-0.053*var(--w)); }
+.hero__comp .float-icon--ai{ top:calc(-0.246*var(--w)); left:calc( 0.180*var(--w)); }
+.hero__comp .float-icon--pr{ top:calc(-0.310*var(--w)); left:calc( 0.420*var(--w)); }
+.hero__comp .float-icon--dr{ top:calc(-0.246*var(--w)); left:calc( 0.660*var(--w)); }
+.hero__comp .float-icon--hf{ top:calc( 0.086*var(--w)); left:calc( 0.893*var(--w)); }
 @media (max-width:600px){
-  .hero__comp{ --w:clamp(260px,80vw,340px); }
-  .hero__comp .float-icon{ width:40px; height:40px; font-size:13px; border-radius:9px; }
+  .hero__comp{ --w:clamp(240px,78vw,320px); }
+  .hero__comp .float-icon{ width:38px; height:38px; font-size:12px; border-radius:8px; }
 }
 .hero::before{
   content:""; position:absolute; left:50%; top:35%; transform:translate(-50%,-50%);
@@ -274,12 +283,12 @@ p{ margin:0; }
 ============================================================ */
 .float-icon{
   position:absolute; z-index:1; pointer-events:none; user-select:none;
-  width:clamp(54px,5.2vw,72px); height:clamp(54px,5.2vw,72px);
-  border-radius:clamp(13px,1.4vw,18px);
+  width:clamp(62px,7vw,90px); height:clamp(62px,7vw,90px);
+  border-radius:clamp(15px,1.7vw,22px);
   display:flex; align-items:center; justify-content:center;
   font-family:var(--f-display); font-weight:800; letter-spacing:-0.02em;
-  font-size:clamp(19px,1.9vw,26px);
-  filter:drop-shadow(0 12px 32px rgba(0,0,0,.6));
+  font-size:clamp(22px,2.4vw,32px);
+  filter:drop-shadow(0 14px 36px rgba(0,0,0,.65));
 }
 .float-icon::after{
   content:""; position:absolute; inset:0; border-radius:inherit;
@@ -696,7 +705,10 @@ p{ margin:0; }
 
   <div class="hero__comp">
     <img class="hero__comp-portrait" src="assets/portrait.webp" alt="Bryan Chadwick" loading="eager" decoding="async" width="700" height="700" />
-    <p class="hero__comp-tag">I make things <span class="accent-word" data-wobble>worth looking</span>.</p>
+    <p class="hero__comp-tag">
+      <span class="hero__comp-tag-line1">I make things</span>
+      <span class="hero__comp-tag-line2"><span class="accent-word" data-wobble>worth looking</span>.</span>
+    </p>
     <div class="float-icon float-icon--ae" aria-hidden="true">Ae</div>
     <div class="float-icon float-icon--ai" aria-hidden="true">Ai</div>
     <div class="float-icon float-icon--pr" aria-hidden="true">Pr</div>
@@ -1165,7 +1177,7 @@ function initHero(){
   gsap.from(tops,     { opacity: 0, y: 8,  duration: 0.6, stagger: 0.04, delay: startDelay + 0.2 });
   gsap.from(".float-icon", { opacity: 0, scale: 0.4, duration: 0.85, ease: "back.out(1.6)", stagger: 0.1, delay: startDelay + 0.65 });
 
-  const word = document.querySelector(".hero__comp-tag [data-wobble]");
+  const word = document.querySelector(".hero__comp-tag-line2 [data-wobble]");
   if (word){
     gsap.to(word, {
       keyframes: [
