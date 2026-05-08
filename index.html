@@ -384,6 +384,21 @@ p{ margin:0; }
 .cat-section{
   padding:clamp(56px,9vw,112px) 0;
   border-top:1px solid var(--hairline);
+  position:relative; overflow:hidden;
+}
+.mg-graph-bg{
+  position:absolute; inset:0;
+  pointer-events:none; z-index:0; overflow:hidden;
+  opacity:.36;
+}
+.mg-graph-bg svg{
+  position:absolute; width:100%; height:100%; top:0; left:0;
+  animation:graph-float 9s ease-in-out infinite;
+}
+@keyframes graph-float{
+  0%,100%{ transform:translateY(0) translateX(0); }
+  40%    { transform:translateY(-10px) translateX(5px); }
+  70%    { transform:translateY(7px) translateX(-4px); }
 }
 .cat-hd{
   max-width:var(--maxw); margin:0 auto;
@@ -938,6 +953,63 @@ p{ margin:0; }
 
   <!-- 01 Motion Graphics -->
   <div class="cat-section">
+
+    <!-- Animation graph background -->
+    <div class="mg-graph-bg" aria-hidden="true">
+      <svg viewBox="0 0 1200 480" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+
+        <!-- Grid -->
+        <g stroke="white" stroke-width="1">
+          <line x1="0" y1="96"  x2="1200" y2="96"  opacity=".12"/>
+          <line x1="0" y1="192" x2="1200" y2="192" opacity=".12"/>
+          <line x1="0" y1="288" x2="1200" y2="288" opacity=".12"/>
+          <line x1="0" y1="384" x2="1200" y2="384" opacity=".12"/>
+          <line x1="240"  y1="0" x2="240"  y2="480" opacity=".07"/>
+          <line x1="480"  y1="0" x2="480"  y2="480" opacity=".07"/>
+          <line x1="720"  y1="0" x2="720"  y2="480" opacity=".07"/>
+          <line x1="960"  y1="0" x2="960"  y2="480" opacity=".07"/>
+        </g>
+        <!-- Baseline -->
+        <line x1="0" y1="440" x2="1200" y2="440" stroke="white" opacity=".22" stroke-width="1"/>
+        <!-- Axis ticks -->
+        <g stroke="white" stroke-width="1" opacity=".18">
+          <line x1="240"  y1="436" x2="240"  y2="444"/>
+          <line x1="480"  y1="436" x2="480"  y2="444"/>
+          <line x1="720"  y1="436" x2="720"  y2="444"/>
+          <line x1="960"  y1="436" x2="960"  y2="444"/>
+          <line x1="1200" y1="436" x2="1200" y2="444"/>
+        </g>
+
+        <!-- Curve 1 — main position ease (bright) -->
+        <path d="M0 440 C260 440 340 48 600 48 L1200 48" stroke="white" stroke-width="2.5" opacity=".75"/>
+        <!-- Bezier handles -->
+        <line x1="0" y1="440" x2="260" y2="440" stroke="white" opacity=".45" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <line x1="600" y1="48" x2="340" y2="48" stroke="white" opacity=".45" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <circle cx="260" cy="440" r="5" fill="none" stroke="white" stroke-width="1.5" opacity=".65"/>
+        <circle cx="340" cy="48"  r="5" fill="none" stroke="white" stroke-width="1.5" opacity=".65"/>
+        <!-- Keyframe diamonds -->
+        <polygon points="0,435 6,440 0,445 -6,440"     fill="white" opacity=".9"/>
+        <polygon points="600,43 606,48 600,53 594,48"  fill="white" opacity=".9"/>
+        <polygon points="1200,43 1206,48 1200,53 1194,48" fill="white" opacity=".55"/>
+
+        <!-- Curve 2 — scale with overshoot bounce -->
+        <path d="M0 440 C200 440 380 22 520 82 C660 142 680 22 790 42 L1200 42" stroke="white" stroke-width="2" opacity=".42"/>
+        <line x1="0" y1="440" x2="200" y2="440" stroke="white" opacity=".28" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="520" y1="82" x2="380" y2="22" stroke="white" opacity=".28" stroke-width="1" stroke-dasharray="4 4"/>
+        <circle cx="200" cy="440" r="4" fill="none" stroke="white" stroke-width="1.5" opacity=".45"/>
+        <circle cx="520" cy="82"  r="4" fill="none" stroke="white" stroke-width="1.5" opacity=".45"/>
+        <circle cx="680" cy="22"  r="4" fill="none" stroke="white" stroke-width="1.5" opacity=".45"/>
+        <polygon points="0,436 5,440 0,444 -5,440"     fill="white" opacity=".55"/>
+        <polygon points="790,38 795,42 790,46 785,42"  fill="white" opacity=".55"/>
+
+        <!-- Curve 3 — opacity / delayed ease -->
+        <path d="M0 440 L340 440 C430 440 470 48 560 48 L1200 48" stroke="white" stroke-width="1.5" opacity=".25"/>
+        <polygon points="340,436 344,440 340,444 336,440" fill="white" opacity=".35"/>
+        <polygon points="560,44 564,48 560,52 556,48"  fill="white" opacity=".35"/>
+
+      </svg>
+    </div>
+
     <div class="cat-hd">
       <div class="cat-hd__left">
         <span class="cat-hd__num">01</span>
