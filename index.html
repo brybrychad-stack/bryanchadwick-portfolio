@@ -1784,7 +1784,7 @@ function makeCarousel(stageId, dotsId, prevId, nextId, videos){
   const nextBtn = document.getElementById(nextId);
   if (!stage) return;
 
-  let active = 0;
+  let active = Math.floor(videos.length / 2);
 
   videos.forEach((v, i) => {
     const card = document.createElement("div");
@@ -1862,7 +1862,7 @@ function initGdCarousel(){
     { username:"brynbrnls", likes:"11.2k", caption:"Design 06", src:"https://picsum.photos/seed/gd6/480/700" },
   ];
 
-  let active = 0;
+  let active = Math.floor(items.length / 2);
   const cards = [];
   const dots  = [];
 
