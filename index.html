@@ -830,49 +830,53 @@ p{ margin:0; }
 .tl-wrap{
   overflow-x:auto; overflow-y:visible;
   -webkit-overflow-scrolling:touch;
-  scrollbar-width:none; margin-top:56px; cursor:grab;
+  scrollbar-width:none; margin-top:48px; cursor:grab;
 }
 .tl-wrap:active{ cursor:grabbing; }
 .tl-wrap::-webkit-scrollbar{ display:none; }
 .tl-track{
   display:flex; align-items:center; position:relative;
-  width:max-content; height:360px; padding:0 var(--pad-x);
+  width:max-content; height:260px; padding:0 var(--pad-x);
 }
 .tl-track::before{
   content:""; position:absolute; left:0; right:0; top:50%;
   height:1px; background:rgba(255,255,255,.15); z-index:0;
 }
 .tl-item{
-  position:relative; width:190px; flex-shrink:0;
+  position:relative; width:152px; flex-shrink:0;
   display:flex; align-items:center; justify-content:center; z-index:1;
+}
+@keyframes tl-pulse{
+  0%,100%{ transform:rotate(45deg) scale(1);    box-shadow:0 0 10px rgba(255,16,32,.5); }
+  50%     { transform:rotate(45deg) scale(1.55); box-shadow:0 0 20px rgba(255,16,32,.8); }
 }
 .tl-dot{
   width:10px; height:10px; background:var(--accent);
   transform:rotate(45deg); position:relative; z-index:2; flex-shrink:0;
-  box-shadow:0 0 12px rgba(255,16,32,.55);
+  animation:tl-pulse 2.4s ease-in-out infinite;
 }
 .tl-item::after{
   content:""; position:absolute;
   left:calc(50% - 0.5px); width:1px; background:rgba(255,255,255,.18);
 }
-.tl-item.up::after{ bottom:50%; height:72px; }
-.tl-item.dn::after{ top:50%;    height:72px; }
+.tl-item.up::after{ bottom:50%; height:48px; }
+.tl-item.dn::after{ top:50%;    height:48px; }
 .tl-card{
   position:absolute; left:50%; transform:translateX(-50%);
-  width:160px; text-align:center;
+  width:138px; text-align:center;
 }
-.tl-item.up .tl-card{ bottom:calc(50% + 78px); }
-.tl-item.dn .tl-card{ top:calc(50%    + 78px); }
+.tl-item.up .tl-card{ bottom:calc(50% + 54px); }
+.tl-item.dn .tl-card{ top:calc(50%    + 54px); }
 .tl-co{
   font-size:13px; font-weight:700; color:#fff;
   line-height:1.3; margin-bottom:5px;
 }
-.tl-co em{ color:var(--accent); font-style:normal; }
+.tl-co em{ color:#fff; font-style:normal; }
 .tl-role{
   font-size:9px; letter-spacing:.12em; text-transform:uppercase;
-  color:var(--accent); font-weight:600; margin-bottom:5px;
+  color:rgba(255,255,255,.6); font-weight:500; margin-bottom:5px;
 }
-.tl-desc{ font-size:11px; color:var(--fg-dim); line-height:1.5; }
+.tl-desc{ font-size:11px; color:rgba(255,255,255,.5); line-height:1.5; }
 
 /* ============================================================
    MARQUEE / TOOLS
@@ -1546,29 +1550,6 @@ p{ margin:0; }
         <p>I've spent the last eight years cutting for agencies, studios, and a handful of bands who insisted on doing the whole thing in-camera. The work I'm proudest of is rarely the most decorated — it's the cut where the rhythm carries the idea without anybody noticing the seams.</p>
         <p>I work best on projects with a strong director and a willingness to throw out the storyboard once the footage shows up. I'm calm in feedback, fast in turnaround, and quietly opinionated about pacing.</p>
 
-        <div class="about__credits">
-          <div>
-            <h4>Selected Clients</h4>
-            <ul>
-              <li>Aether Athletics</li>
-              <li>FX Networks</li>
-              <li>Volvo Recharge</li>
-              <li>A24 (uncredited)</li>
-              <li>Northsea Bank</li>
-              <li>Lyra Audio</li>
-            </ul>
-          </div>
-          <div>
-            <h4>Recognition</h4>
-            <ul>
-              <li>Vimeo Staff Pick · ×4</li>
-              <li>SXSW Title Design · 2025</li>
-              <li>D&amp;AD Wood Pencil · 2024</li>
-              <li>Motionographer · Mention</li>
-              <li>Cannes YDA · Shortlist</li>
-            </ul>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -1803,6 +1784,9 @@ function init(){
   initGdCarousel();
   initTileReveal();
   initProcess();
+  /* center timeline scroll */
+  const tlWrap = document.querySelector(".tl-wrap");
+  if(tlWrap){ const track = tlWrap.querySelector(".tl-track"); tlWrap.scrollLeft = (track.scrollWidth - tlWrap.clientWidth) / 2; }
   initMarquee();
   initStats();
   initMagnetics();
