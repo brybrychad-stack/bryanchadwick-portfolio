@@ -1945,7 +1945,8 @@ function initRevealHeads(){
   };
 })();
 
-function makeCarousel(stageId, dotsId, prevId, nextId, videos){
+function makeCarousel(stageId, dotsId, prevId, nextId, videos, opts = {}){
+  const gap = opts.gap ?? 1;
   const stage   = document.getElementById(stageId);
   const dotsEl  = document.getElementById(dotsId);
   const prevBtn = document.getElementById(prevId);
@@ -1991,9 +1992,9 @@ function makeCarousel(stageId, dotsId, prevId, nextId, videos){
       const dir = pos >= 0 ? 1 : -1;
       let tx, scale, opacity, zi;
       if      (abs === 0) { tx = 0;        scale = 1;    opacity = 1;    zi = 5; }
-      else if (abs === 1) { tx = dir*570;  scale = 0.72; opacity = 0.55; zi = 3; }
-      else if (abs === 2) { tx = dir*1000; scale = 0.52; opacity = mob ? 0 : 0.22; zi = 1; }
-      else                { tx = dir*1400; scale = 0.4;  opacity = 0;    zi = 0; }
+      else if (abs === 1) { tx = dir*570*gap;  scale = 0.72; opacity = 0.55; zi = 3; }
+      else if (abs === 2) { tx = dir*1000*gap; scale = 0.52; opacity = mob ? 0 : 0.22; zi = 1; }
+      else                { tx = dir*1400*gap; scale = 0.4;  opacity = 0;    zi = 0; }
       card.style.cssText += `;transform:translateX(${tx}px) scale(${scale});opacity:${opacity};z-index:${zi}`;
       card.classList.toggle("is-active", abs === 0);
     });
@@ -2145,7 +2146,7 @@ function initSfCarousel(){
     { title:"Short Form 04", tag:"Short Form", src:"https://drive.google.com/thumbnail?id=1Bbc-RmYUubT-kOGZhZD0xRhkzfnhqOTV&sz=w960", driveId:"1Bbc-RmYUubT-kOGZhZD0xRhkzfnhqOTV" },
     { title:"Short Form 05", tag:"Short Form", src:"https://drive.google.com/thumbnail?id=173y9wBKzlPPBd8NteRCm_ikZBoSM7zoC&sz=w960", driveId:"173y9wBKzlPPBd8NteRCm_ikZBoSM7zoC" },
     { title:"Short Form 06", tag:"Short Form", src:"https://drive.google.com/thumbnail?id=1H_xxt8Vq3SApxJCJz6IfJXXiKLVdrSxL&sz=w960", driveId:"1H_xxt8Vq3SApxJCJz6IfJXXiKLVdrSxL" },
-  ]);
+  ], { gap: 0.55 });
 }
 
 /* ---------- Portfolio tile reveal ---------- */
