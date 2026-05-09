@@ -610,6 +610,14 @@ p{ margin:0; }
 .mg-card__play svg{ width:64px; height:64px; filter:drop-shadow(0 4px 16px rgba(0,0,0,.5)); transition:transform .3s; }
 .mg-card.is-active .mg-card__play{ opacity:1; }
 .mg-card.is-active:hover .mg-card__play svg{ transform:scale(1.1); }
+.mg-card__cta{
+  position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
+  font-size:clamp(14px,1.4vw,20px); font-weight:700; letter-spacing:-0.03em;
+  color:#fff; white-space:nowrap; z-index:4; pointer-events:none;
+  opacity:1; transition:opacity .4s;
+  text-shadow:0 2px 12px rgba(0,0,0,.6);
+}
+.mg-card.is-active .mg-card__cta{ opacity:0; }
 /* Lightbox modal */
 .mg-modal{
   position:fixed; inset:0; z-index:2000;
@@ -1405,35 +1413,15 @@ p{ margin:0; }
       </div>
       <span class="cat-hd__desc">Brand identity &amp;<br>animated logos</span>
     </div>
-    <div class="la-grid" id="laGrid">
-      <div class="tile" data-drive="1HKcIcs1CmZ22oFxkaRB9NPSUn4MfsPVO">
-        <img src="https://drive.google.com/thumbnail?id=1HKcIcs1CmZ22oFxkaRB9NPSUn4MfsPVO&sz=w600" alt="Logo Animation 01" loading="lazy" />
-        <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
-      </div>
-      <div class="tile" data-drive="1O1mLTNluxHkEipskIvnEGf5Gx2Snctjx">
-        <img src="https://drive.google.com/thumbnail?id=1O1mLTNluxHkEipskIvnEGf5Gx2Snctjx&sz=w600" alt="Logo Animation 02" loading="lazy" />
-        <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
-      </div>
-      <div class="tile" data-drive="1OWuTx2wqvcwUkQBZfq2BV1JAfRAXTFz4">
-        <img src="https://drive.google.com/thumbnail?id=1OWuTx2wqvcwUkQBZfq2BV1JAfRAXTFz4&sz=w600" alt="Logo Animation 03" loading="lazy" />
-        <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
-      </div>
-      <div class="tile" data-drive="11hGLSrHNmnYfdZ9h7xL7IBKVgJIBHxxX">
-        <img src="https://drive.google.com/thumbnail?id=11hGLSrHNmnYfdZ9h7xL7IBKVgJIBHxxX&sz=w600" alt="Logo Animation 04" loading="lazy" />
-        <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
-      </div>
-      <div class="tile" data-drive="1cyZavI2tc72j7kXQJ3IKMx1bW-d5agi1">
-        <img src="https://drive.google.com/thumbnail?id=1cyZavI2tc72j7kXQJ3IKMx1bW-d5agi1&sz=w600" alt="Logo Animation 05" loading="lazy" />
-        <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
-      </div>
-      <div class="tile" data-drive="1BmYkcoKG-M_1cMMFlRzYnISPgHE9qKsM">
-        <img src="https://drive.google.com/thumbnail?id=1BmYkcoKG-M_1cMMFlRzYnISPgHE9qKsM&sz=w600" alt="Logo Animation 06" loading="lazy" />
-        <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
-      </div>
-      <div class="tile" data-drive="1wEvnFu0-QEC1HNQensQTrUxWtebBKTta">
-        <img src="https://drive.google.com/thumbnail?id=1wEvnFu0-QEC1HNQensQTrUxWtebBKTta&sz=w600" alt="Logo Animation 07" loading="lazy" />
-        <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
-      </div>
+    <div class="mg-carousel" id="laCarousel">
+      <div class="mg-stage" id="laStage"></div>
+      <button class="mg-arrow mg-arrow--prev" id="laPrev" aria-label="Previous">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="mg-arrow mg-arrow--next" id="laNext" aria-label="Next">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="mg-dots" id="laDots"></div>
     </div>
   </div>
 
@@ -1774,7 +1762,7 @@ function init(){
   initVeCarousel();
   initSfCarousel();
   initGdCarousel();
-  initLogoGrid();
+  initLaCarousel();
   initTileReveal();
   initProcess();
   /* center timeline scroll */
@@ -1977,7 +1965,8 @@ function makeCarousel(stageId, dotsId, prevId, nextId, videos, opts = {}){
     const playBtn = hasPlay
       ? `<button class="mg-card__play" aria-label="Play video"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="white" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="white"/></svg></button>`
       : "";
-    card.innerHTML = `<img src="${v.src}" alt="${v.title}" loading="lazy" />${playBtn}<div class="mg-card__info"><div class="mg-card__tag">${v.tag}</div><div class="mg-card__title">${v.title}</div></div>`;
+    const ctaEl = v.cta ? `<span class="mg-card__cta">${v.cta}</span>` : "";
+    card.innerHTML = `<img src="${v.src}" alt="${v.title}" loading="lazy" />${playBtn}${ctaEl}<div class="mg-card__info"><div class="mg-card__tag">${v.tag}</div><div class="mg-card__title">${v.title}</div></div>`;
     card.addEventListener("click", () => {
       if (i !== active){ goTo(i); return; }
       if (hasPlay && window._carouselOpen) window._carouselOpen(v);
@@ -2166,19 +2155,16 @@ function initSfCarousel(){
 
 /* ---------- Portfolio tile reveal ---------- */
 /* ---------- Logo Animation grid — click to play inline ---------- */
-function initLogoGrid(){
-  document.querySelectorAll("#laGrid .tile[data-drive]").forEach(tile => {
-    tile.addEventListener("click", () => {
-      if (tile.classList.contains("is-playing")) return;
-      const id = tile.dataset.drive;
-      const iframe = document.createElement("iframe");
-      iframe.src = `https://drive.google.com/file/d/${id}/preview`;
-      iframe.allow = "autoplay";
-      iframe.allowFullscreen = true;
-      tile.classList.add("is-playing");
-      tile.appendChild(iframe);
-    });
-  });
+function initLaCarousel(){
+  makeCarousel("laStage", "laDots", "laPrev", "laNext", [
+    { title:"Logo Animation 01", tag:"Brand Identity", cta:"Play to view", src:"https://drive.google.com/thumbnail?id=1HKcIcs1CmZ22oFxkaRB9NPSUn4MfsPVO&sz=w960", driveId:"1HKcIcs1CmZ22oFxkaRB9NPSUn4MfsPVO" },
+    { title:"Logo Animation 02", tag:"Brand Identity", cta:"Play to view", src:"https://drive.google.com/thumbnail?id=1O1mLTNluxHkEipskIvnEGf5Gx2Snctjx&sz=w960", driveId:"1O1mLTNluxHkEipskIvnEGf5Gx2Snctjx" },
+    { title:"Logo Animation 03", tag:"Brand Identity", cta:"Play to view", src:"https://drive.google.com/thumbnail?id=1OWuTx2wqvcwUkQBZfq2BV1JAfRAXTFz4&sz=w960", driveId:"1OWuTx2wqvcwUkQBZfq2BV1JAfRAXTFz4" },
+    { title:"Logo Animation 04", tag:"Brand Identity", cta:"Play to view", src:"https://drive.google.com/thumbnail?id=11hGLSrHNmnYfdZ9h7xL7IBKVgJIBHxxX&sz=w960", driveId:"11hGLSrHNmnYfdZ9h7xL7IBKVgJIBHxxX" },
+    { title:"Logo Animation 05", tag:"Brand Identity", cta:"Play to view", src:"https://drive.google.com/thumbnail?id=1cyZavI2tc72j7kXQJ3IKMx1bW-d5agi1&sz=w960", driveId:"1cyZavI2tc72j7kXQJ3IKMx1bW-d5agi1" },
+    { title:"Logo Animation 06", tag:"Brand Identity", cta:"Play to view", src:"https://drive.google.com/thumbnail?id=1BmYkcoKG-M_1cMMFlRzYnISPgHE9qKsM&sz=w960", driveId:"1BmYkcoKG-M_1cMMFlRzYnISPgHE9qKsM" },
+    { title:"Logo Animation 07", tag:"Brand Identity", cta:"Play to view", src:"https://drive.google.com/thumbnail?id=1wEvnFu0-QEC1HNQensQTrUxWtebBKTta&sz=w960", driveId:"1wEvnFu0-QEC1HNQensQTrUxWtebBKTta" },
+  ]);
 }
 
 function initTileReveal(){
