@@ -826,6 +826,54 @@ p{ margin:0; }
   .process__tools{ grid-column:1 / -1; text-align:left; }
 }
 
+/* ── Experience Timeline ── */
+.tl-wrap{
+  overflow-x:auto; overflow-y:visible;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none; margin-top:56px; cursor:grab;
+}
+.tl-wrap:active{ cursor:grabbing; }
+.tl-wrap::-webkit-scrollbar{ display:none; }
+.tl-track{
+  display:flex; align-items:center; position:relative;
+  width:max-content; height:360px; padding:0 var(--pad-x);
+}
+.tl-track::before{
+  content:""; position:absolute; left:0; right:0; top:50%;
+  height:1px; background:rgba(255,255,255,.15); z-index:0;
+}
+.tl-item{
+  position:relative; width:190px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; z-index:1;
+}
+.tl-dot{
+  width:10px; height:10px; background:var(--accent);
+  transform:rotate(45deg); position:relative; z-index:2; flex-shrink:0;
+  box-shadow:0 0 12px rgba(255,16,32,.55);
+}
+.tl-item::after{
+  content:""; position:absolute;
+  left:calc(50% - 0.5px); width:1px; background:rgba(255,255,255,.18);
+}
+.tl-item.up::after{ bottom:50%; height:72px; }
+.tl-item.dn::after{ top:50%;    height:72px; }
+.tl-card{
+  position:absolute; left:50%; transform:translateX(-50%);
+  width:160px; text-align:center;
+}
+.tl-item.up .tl-card{ bottom:calc(50% + 78px); }
+.tl-item.dn .tl-card{ top:calc(50%    + 78px); }
+.tl-co{
+  font-size:13px; font-weight:700; color:#fff;
+  line-height:1.3; margin-bottom:5px;
+}
+.tl-co em{ color:var(--accent); font-style:normal; }
+.tl-role{
+  font-size:9px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--accent); font-weight:600; margin-bottom:5px;
+}
+.tl-desc{ font-size:11px; color:var(--fg-dim); line-height:1.5; }
+
 /* ============================================================
    MARQUEE / TOOLS
 ============================================================ */
@@ -1524,6 +1572,115 @@ p{ margin:0; }
       </div>
     </div>
   </div>
+
+  <div style="text-align:center; padding:0 var(--pad-x);">
+    <span class="eyebrow" style="display:flex; justify-content:center;"><span class="bar"></span><span class="num">XP</span> — Where I've been</span>
+  </div>
+  <div class="tl-wrap">
+    <div class="tl-track">
+
+      <div class="tl-item up">
+        <div class="tl-card">
+          <div class="tl-co"><em>Bizarre</em> Motion</div>
+          <div class="tl-role">Freelance · Own Studio</div>
+          <div class="tl-desc">Music videos · Mograph · Logo design</div>
+        </div>
+        <div class="tl-dot"></div>
+      </div>
+
+      <div class="tl-item dn">
+        <div class="tl-card">
+          <div class="tl-co">Entrepreneurs<br>Beach Club</div>
+          <div class="tl-role">Video Editor</div>
+          <div class="tl-desc">Live events cut for social media</div>
+        </div>
+        <div class="tl-dot"></div>
+      </div>
+
+      <div class="tl-item up">
+        <div class="tl-card">
+          <div class="tl-co">Tabanag<br>Multi Media</div>
+          <div class="tl-role">Content Editor</div>
+          <div class="tl-desc">E-commerce · IG · YT · FB · LinkedIn</div>
+        </div>
+        <div class="tl-dot"></div>
+      </div>
+
+      <div class="tl-item dn">
+        <div class="tl-card">
+          <div class="tl-co">Ateneo de<br>Zamboanga U</div>
+          <div class="tl-role">Multimedia Staff</div>
+          <div class="tl-desc">Events · Marketing · Student seminars</div>
+        </div>
+        <div class="tl-dot"></div>
+      </div>
+
+      <div class="tl-item up">
+        <div class="tl-card">
+          <div class="tl-co"><em>Developsly</em></div>
+          <div class="tl-role">Creative Head</div>
+          <div class="tl-desc">Video editing · Team leadership</div>
+        </div>
+        <div class="tl-dot"></div>
+      </div>
+
+      <div class="tl-item dn">
+        <div class="tl-card">
+          <div class="tl-co"><em>Delesign</em></div>
+          <div class="tl-role">Video Editor</div>
+          <div class="tl-desc">Graphic design · Mograph animation</div>
+        </div>
+        <div class="tl-dot"></div>
+      </div>
+
+      <div class="tl-item up">
+        <div class="tl-card">
+          <div class="tl-co">Dreame.rs<br>Solution</div>
+          <div class="tl-role">Motion + UI/UX</div>
+          <div class="tl-desc">Video · Mograph · Web &amp; mobile</div>
+        </div>
+        <div class="tl-dot"></div>
+      </div>
+
+      <div class="tl-item dn">
+        <div class="tl-card">
+          <div class="tl-co">Brighst Star<br>Kids</div>
+          <div class="tl-role">UGC Editor</div>
+          <div class="tl-desc">UGC content · Mograph animator</div>
+        </div>
+        <div class="tl-dot"></div>
+      </div>
+
+      <div class="tl-item up">
+        <div class="tl-card">
+          <div class="tl-co"><em>YEAPS</em></div>
+          <div class="tl-role">Event Animator</div>
+          <div class="tl-desc">Rotary events · OBB/CBB · Photo editing</div>
+        </div>
+        <div class="tl-dot"></div>
+      </div>
+
+      <div class="tl-item dn">
+        <div class="tl-card">
+          <div class="tl-co"><em>Royaltale</em></div>
+          <div class="tl-role">Senior Editor</div>
+          <div class="tl-desc">Reels · VSL · Podcast · Mograph</div>
+        </div>
+        <div class="tl-dot"></div>
+      </div>
+
+      <div class="tl-item up">
+        <div class="tl-card">
+          <div class="tl-co">Citron Films</div>
+          <div class="tl-role">Podcast Editor</div>
+          <div class="tl-desc">Audio-first storytelling</div>
+        </div>
+        <div class="tl-dot"></div>
+      </div>
+
+    </div>
+  </div>
+
 </section>
 
 
