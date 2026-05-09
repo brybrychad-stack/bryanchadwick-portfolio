@@ -1365,43 +1365,15 @@ p{ margin:0; }
       </div>
       <span class="cat-hd__desc">Social media &amp;<br>advertising content</span>
     </div>
-    <div class="sf-grid">
-      <div class="tile" onclick="window._carouselOpen({driveId:'1rRzioIJWrgKuFUoZKNzaJlNQhdDgYLTA'})">
-        <span class="tile__badge">9:16</span>
-        <img src="https://drive.google.com/thumbnail?id=1rRzioIJWrgKuFUoZKNzaJlNQhdDgYLTA&sz=w960" alt="" loading="lazy" />
-        <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
-        <div class="tile__info"><div class="tile__name">Short Form 01</div></div>
-      </div>
-      <div class="tile" onclick="window._carouselOpen({driveId:'17g7jendm0KqIZuYawsk3Rumf1wfr-9xS'})">
-        <span class="tile__badge">9:16</span>
-        <img src="https://drive.google.com/thumbnail?id=17g7jendm0KqIZuYawsk3Rumf1wfr-9xS&sz=w960" alt="" loading="lazy" />
-        <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
-        <div class="tile__info"><div class="tile__name">Short Form 02</div></div>
-      </div>
-      <div class="tile" onclick="window._carouselOpen({driveId:'1IIsG-0FZMEjyUadBqotqXQSN1MsHAFfG'})">
-        <span class="tile__badge">9:16</span>
-        <img src="https://drive.google.com/thumbnail?id=1IIsG-0FZMEjyUadBqotqXQSN1MsHAFfG&sz=w960" alt="" loading="lazy" />
-        <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
-        <div class="tile__info"><div class="tile__name">Short Form 03</div></div>
-      </div>
-      <div class="tile" onclick="window._carouselOpen({driveId:'1Bbc-RmYUubT-kOGZhZD0xRhkzfnhqOTV'})">
-        <span class="tile__badge">9:16</span>
-        <img src="https://drive.google.com/thumbnail?id=1Bbc-RmYUubT-kOGZhZD0xRhkzfnhqOTV&sz=w960" alt="" loading="lazy" />
-        <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
-        <div class="tile__info"><div class="tile__name">Short Form 04</div></div>
-      </div>
-      <div class="tile" onclick="window._carouselOpen({driveId:'173y9wBKzlPPBd8NteRCm_ikZBoSM7zoC'})">
-        <span class="tile__badge">9:16</span>
-        <img src="https://drive.google.com/thumbnail?id=173y9wBKzlPPBd8NteRCm_ikZBoSM7zoC&sz=w960" alt="" loading="lazy" />
-        <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
-        <div class="tile__info"><div class="tile__name">Short Form 05</div></div>
-      </div>
-      <div class="tile" onclick="window._carouselOpen({driveId:'1H_xxt8Vq3SApxJCJz6IfJXXiKLVdrSxL'})">
-        <span class="tile__badge">9:16</span>
-        <img src="https://drive.google.com/thumbnail?id=1H_xxt8Vq3SApxJCJz6IfJXXiKLVdrSxL&sz=w960" alt="" loading="lazy" />
-        <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
-        <div class="tile__info"><div class="tile__name">Short Form 06</div></div>
-      </div>
+    <div class="mg-carousel" id="sfCarousel">
+      <div class="mg-stage" id="sfStage"></div>
+      <button class="mg-arrow mg-arrow--prev" id="sfPrev" aria-label="Previous">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="mg-arrow mg-arrow--next" id="sfNext" aria-label="Next">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="mg-dots" id="sfDots"></div>
     </div>
   </div>
 
@@ -1773,6 +1745,7 @@ function init(){
   initRevealHeads();
   initMgCarousel();
   initVeCarousel();
+  initSfCarousel();
   initGdCarousel();
   initTileReveal();
   initProcess();
@@ -2147,6 +2120,18 @@ function initVeCarousel(){
     { title:"Brand Narrative",   tag:"Brand Film",    src:"https://picsum.photos/seed/ve3/960/540" },
     { title:"Music Video Edit",  tag:"Music Video",   src:"https://picsum.photos/seed/ve4/960/540" },
     { title:"Short Documentary", tag:"Documentary",   src:"https://picsum.photos/seed/ve5/960/540" },
+  ]);
+}
+
+/* ---------- Short Form Carousel ---------- */
+function initSfCarousel(){
+  makeCarousel("sfStage", "sfDots", "sfPrev", "sfNext", [
+    { title:"Short Form 01", tag:"Short Form", src:"https://drive.google.com/thumbnail?id=1rRzioIJWrgKuFUoZKNzaJlNQhdDgYLTA&sz=w960", driveId:"1rRzioIJWrgKuFUoZKNzaJlNQhdDgYLTA" },
+    { title:"Short Form 02", tag:"Short Form", src:"https://drive.google.com/thumbnail?id=17g7jendm0KqIZuYawsk3Rumf1wfr-9xS&sz=w960", driveId:"17g7jendm0KqIZuYawsk3Rumf1wfr-9xS" },
+    { title:"Short Form 03", tag:"Short Form", src:"https://drive.google.com/thumbnail?id=1IIsG-0FZMEjyUadBqotqXQSN1MsHAFfG&sz=w960", driveId:"1IIsG-0FZMEjyUadBqotqXQSN1MsHAFfG" },
+    { title:"Short Form 04", tag:"Short Form", src:"https://drive.google.com/thumbnail?id=1Bbc-RmYUubT-kOGZhZD0xRhkzfnhqOTV&sz=w960", driveId:"1Bbc-RmYUubT-kOGZhZD0xRhkzfnhqOTV" },
+    { title:"Short Form 05", tag:"Short Form", src:"https://drive.google.com/thumbnail?id=173y9wBKzlPPBd8NteRCm_ikZBoSM7zoC&sz=w960", driveId:"173y9wBKzlPPBd8NteRCm_ikZBoSM7zoC" },
+    { title:"Short Form 06", tag:"Short Form", src:"https://drive.google.com/thumbnail?id=1H_xxt8Vq3SApxJCJz6IfJXXiKLVdrSxL&sz=w960", driveId:"1H_xxt8Vq3SApxJCJz6IfJXXiKLVdrSxL" },
   ]);
 }
 
