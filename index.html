@@ -716,6 +716,7 @@ p{ margin:0; }
 }
 .gd-card{
   position:absolute;
+  left:50%; top:50%;
   width:420px; height:420px;
   border-radius:18px; overflow:hidden;
   background:#fff;
@@ -1854,12 +1855,11 @@ function initGdCarousel(){
 
   /* ── Placeholder cards — replace src/username/likes with real content ── */
   const items = [
-    { username:"brynbrnls", likes:"12.4k", caption:"Design 01", src:"https://picsum.photos/seed/gd1/480/700" },
-    { username:"brynbrnls", likes:"9.8k",  caption:"Design 02", src:"https://picsum.photos/seed/gd2/480/700" },
-    { username:"brynbrnls", likes:"21.1k", caption:"Design 03", src:"https://picsum.photos/seed/gd3/480/700" },
-    { username:"brynbrnls", likes:"7.3k",  caption:"Design 04", src:"https://picsum.photos/seed/gd4/480/700" },
-    { username:"brynbrnls", likes:"15.6k", caption:"Design 05", src:"https://picsum.photos/seed/gd5/480/700" },
-    { username:"brynbrnls", likes:"11.2k", caption:"Design 06", src:"https://picsum.photos/seed/gd6/480/700" },
+    { username:"brynbrnls", likes:"12.4k", caption:"Design 01", src:"https://drive.google.com/thumbnail?id=1mJrPiz20kqKueu1AXBjoSVtcusleKY2o&sz=w960" },
+    { username:"brynbrnls", likes:"9.8k",  caption:"Design 02", src:"https://drive.google.com/thumbnail?id=1dCRX__xa6zAqy1R7SwN9ghSBJFo0_NQq&sz=w960" },
+    { username:"brynbrnls", likes:"21.1k", caption:"Design 03", src:"https://drive.google.com/thumbnail?id=1hVF1ieEic1nBFUghWYPrfYe3lc-7sbPn&sz=w960" },
+    { username:"brynbrnls", likes:"7.3k",  caption:"Design 04", src:"https://drive.google.com/thumbnail?id=1sxViwxFqr3cHBPrfXKr88Nnv4NNvxpyg&sz=w960" },
+    { username:"brynbrnls", likes:"15.6k", caption:"Design 05", src:"https://drive.google.com/thumbnail?id=1LEm9pH7hGUHBrQPG9XoUkYbczCzPn6Fy&sz=w960" },
   ];
 
   let active = Math.floor(items.length / 2);
@@ -1912,7 +1912,7 @@ function initGdCarousel(){
       else if (abs === 1){ tx=dir*370;   ry=-dir*32;  scale=0.82; opacity=0.75; zi=3; blur=1; }
       else if (abs === 2){ tx=dir*620;   ry=-dir*50;  scale=0.66; opacity=mob?0:0.5; zi=2; blur=3; }
       else               { tx=dir*840;   ry=-dir*62;  scale=0.52; opacity=0;    zi=1; blur=5; }
-      card.style.transform = `translateX(${tx}px) rotateY(${ry}deg) scale(${scale})`;
+      card.style.transform = `translate(-50%,-50%) translateX(${tx}px) rotateY(${ry}deg) scale(${scale})`;
       card.style.opacity   = opacity;
       card.style.zIndex    = zi;
       card.style.filter    = blur ? `blur(${blur}px)` : "";
