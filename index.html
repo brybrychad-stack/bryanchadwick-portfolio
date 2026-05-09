@@ -677,6 +677,12 @@ p{ margin:0; }
   display:grid; grid-template-columns:repeat(4,1fr); gap:10px;
 }
 .la-grid .tile{ aspect-ratio:1; }
+.la-grid .tile.is-playing img,
+.la-grid .tile.is-playing .tile__play-wrap,
+.la-grid .tile.is-playing .tile__info{ display:none; }
+.la-grid .tile.is-playing iframe{
+  position:absolute; inset:0; width:100%; height:100%; border:none; display:block;
+}
 @media (max-width:760px){ .la-grid{ grid-template-columns:repeat(2,1fr); } }
 
 /* Tile component */
@@ -1399,26 +1405,34 @@ p{ margin:0; }
       </div>
       <span class="cat-hd__desc">Brand identity &amp;<br>animated logos</span>
     </div>
-    <div class="la-grid">
-      <div class="tile">
-        <img src="https://picsum.photos/seed/la1/600/600" alt="" loading="lazy" />
+    <div class="la-grid" id="laGrid">
+      <div class="tile" data-drive="1HKcIcs1CmZ22oFxkaRB9NPSUn4MfsPVO">
+        <img src="https://drive.google.com/thumbnail?id=1HKcIcs1CmZ22oFxkaRB9NPSUn4MfsPVO&sz=w600" alt="Logo Animation 01" loading="lazy" />
         <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
-        <div class="tile__info"><div class="tile__client">Aether</div><div class="tile__name">Brand Reveal</div></div>
       </div>
-      <div class="tile">
-        <img src="https://picsum.photos/seed/la2/600/600" alt="" loading="lazy" />
+      <div class="tile" data-drive="1O1mLTNluxHkEipskIvnEGf5Gx2Snctjx">
+        <img src="https://drive.google.com/thumbnail?id=1O1mLTNluxHkEipskIvnEGf5Gx2Snctjx&sz=w600" alt="Logo Animation 02" loading="lazy" />
         <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
-        <div class="tile__info"><div class="tile__client">Folio Coffee</div><div class="tile__name">Identity Sting</div></div>
       </div>
-      <div class="tile">
-        <img src="https://picsum.photos/seed/la3/600/600" alt="" loading="lazy" />
+      <div class="tile" data-drive="1OWuTx2wqvcwUkQBZfq2BV1JAfRAXTFz4">
+        <img src="https://drive.google.com/thumbnail?id=1OWuTx2wqvcwUkQBZfq2BV1JAfRAXTFz4&sz=w600" alt="Logo Animation 03" loading="lazy" />
         <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
-        <div class="tile__info"><div class="tile__client">Lyra Audio</div><div class="tile__name">Wordmark Loop</div></div>
       </div>
-      <div class="tile">
-        <img src="https://picsum.photos/seed/la4/600/600" alt="" loading="lazy" />
+      <div class="tile" data-drive="11hGLSrHNmnYfdZ9h7xL7IBKVgJIBHxxX">
+        <img src="https://drive.google.com/thumbnail?id=11hGLSrHNmnYfdZ9h7xL7IBKVgJIBHxxX&sz=w600" alt="Logo Animation 04" loading="lazy" />
         <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
-        <div class="tile__info"><div class="tile__client">Northsea Bank</div><div class="tile__name">Mark Animation</div></div>
+      </div>
+      <div class="tile" data-drive="1cyZavI2tc72j7kXQJ3IKMx1bW-d5agi1">
+        <img src="https://drive.google.com/thumbnail?id=1cyZavI2tc72j7kXQJ3IKMx1bW-d5agi1&sz=w600" alt="Logo Animation 05" loading="lazy" />
+        <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
+      </div>
+      <div class="tile" data-drive="1BmYkcoKG-M_1cMMFlRzYnISPgHE9qKsM">
+        <img src="https://drive.google.com/thumbnail?id=1BmYkcoKG-M_1cMMFlRzYnISPgHE9qKsM&sz=w600" alt="Logo Animation 06" loading="lazy" />
+        <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
+      </div>
+      <div class="tile" data-drive="1wEvnFu0-QEC1HNQensQTrUxWtebBKTta">
+        <img src="https://drive.google.com/thumbnail?id=1wEvnFu0-QEC1HNQensQTrUxWtebBKTta&sz=w600" alt="Logo Animation 07" loading="lazy" />
+        <div class="tile__play-wrap"><div class="tile__play"><svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg></div></div>
       </div>
     </div>
   </div>
@@ -1760,6 +1774,7 @@ function init(){
   initVeCarousel();
   initSfCarousel();
   initGdCarousel();
+  initLogoGrid();
   initTileReveal();
   initProcess();
   /* center timeline scroll */
@@ -2150,6 +2165,22 @@ function initSfCarousel(){
 }
 
 /* ---------- Portfolio tile reveal ---------- */
+/* ---------- Logo Animation grid — click to play inline ---------- */
+function initLogoGrid(){
+  document.querySelectorAll("#laGrid .tile[data-drive]").forEach(tile => {
+    tile.addEventListener("click", () => {
+      if (tile.classList.contains("is-playing")) return;
+      const id = tile.dataset.drive;
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://drive.google.com/file/d/${id}/preview`;
+      iframe.allow = "autoplay";
+      iframe.allowFullscreen = true;
+      tile.classList.add("is-playing");
+      tile.appendChild(iframe);
+    });
+  });
+}
+
 function initTileReveal(){
   document.querySelectorAll(".tile").forEach(tile => {
     if (reduce){
