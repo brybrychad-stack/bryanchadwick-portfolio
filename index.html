@@ -705,6 +705,93 @@ p{ margin:0; }
   border-radius:4px; backdrop-filter:blur(6px);
 }
 
+/* ── Graphic Design Fan Carousel ── */
+.gd-fan-wrap{
+  position:relative; padding:48px 0 64px; overflow:hidden;
+}
+.gd-fan{
+  perspective:1100px; perspective-origin:50% 44%;
+  position:relative; height:500px;
+  display:flex; align-items:center; justify-content:center;
+}
+.gd-card{
+  position:absolute;
+  width:230px; height:380px;
+  border-radius:18px; overflow:hidden;
+  background:#fff;
+  box-shadow:0 24px 64px rgba(0,0,0,.55);
+  transition:transform .65s cubic-bezier(.25,.46,.45,.94),
+             opacity .65s, filter .65s;
+  cursor:pointer; will-change:transform;
+  display:flex; flex-direction:column;
+}
+.gd-card__header{
+  display:flex; align-items:center; gap:10px;
+  padding:12px 14px 10px;
+  background:#fff; flex-shrink:0;
+}
+.gd-card__avatar{
+  width:36px; height:36px; border-radius:50%; overflow:hidden; flex-shrink:0;
+  background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
+}
+.gd-card__avatar img{ width:100%; height:100%; object-fit:cover; }
+.gd-card__meta{ flex:1; min-width:0; }
+.gd-card__username{
+  font-size:13px; font-weight:600; color:#111;
+  display:flex; align-items:center; gap:4px;
+}
+.gd-card__check{
+  width:14px; height:14px; border-radius:50%;
+  background:#0095f6; display:inline-flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.gd-card__check svg{ width:8px; height:8px; fill:#fff; }
+.gd-card__more{
+  font-size:20px; line-height:1; color:#555; letter-spacing:.05em; padding:0 2px;
+}
+.gd-card__image{
+  flex:1; overflow:hidden; background:#eee;
+}
+.gd-card__image img{
+  width:100%; height:100%; object-fit:cover;
+  display:block; pointer-events:none;
+}
+.gd-card__footer{
+  background:#fff; padding:10px 14px 12px; flex-shrink:0;
+  border-top:1px solid #f0f0f0;
+}
+.gd-card__actions{
+  display:flex; align-items:center; gap:14px; margin-bottom:6px;
+}
+.gd-card__actions svg{ width:22px; height:22px; }
+.gd-card__bookmark{ margin-left:auto; }
+.gd-card__likes{
+  font-size:12px; font-weight:600; color:#111; line-height:1;
+}
+.gd-card__likes span{ color:#888; font-weight:400; margin-left:4px; }
+.gd-fan-controls{
+  display:flex; align-items:center; justify-content:center; gap:16px; margin-top:32px;
+}
+.gd-fan-btn{
+  width:40px; height:40px; border-radius:50%;
+  border:1px solid var(--hairline-strong); background:var(--bg-2);
+  color:var(--fg); display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:background .2s, border-color .2s;
+}
+.gd-fan-btn:hover{ background:var(--bg-3); border-color:var(--hairline-strong); }
+.gd-fan-btn svg{ width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; }
+.gd-fan-dots{ display:flex; gap:6px; }
+.gd-fan-dot{
+  width:6px; height:6px; border-radius:50%;
+  background:var(--muted); border:none; cursor:pointer;
+  padding:0; transition:background .3s, width .3s;
+}
+.gd-fan-dot.is-active{ width:20px; border-radius:3px; background:var(--fg); }
+@media(max-width:760px){
+  .gd-fan{ height:400px; }
+  .gd-card{ width:180px; height:300px; }
+}
+
 /* ============================================================
    PROCESS
 ============================================================ */
@@ -1272,6 +1359,29 @@ p{ margin:0; }
     </div>
   </div>
 
+  <!-- 05 Graphic Design -->
+  <div class="cat-section" id="gdSection">
+    <div class="cat-hd">
+      <div class="cat-hd__left">
+        <span class="cat-hd__num">05</span>
+        <h2 class="cat-hd__title" data-reveal>Graphic<br>Design</h2>
+      </div>
+      <span class="cat-hd__desc">Social content &amp;<br>visual design</span>
+    </div>
+    <div class="gd-fan-wrap">
+      <div class="gd-fan" id="gdFan"></div>
+      <div class="gd-fan-controls">
+        <button class="gd-fan-btn" id="gdPrev" aria-label="Previous">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="gd-fan-dots" id="gdDots"></div>
+        <button class="gd-fan-btn" id="gdNext" aria-label="Next">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
 </section>
 
 <!-- ============================================================
@@ -1486,6 +1596,7 @@ function init(){
   initRevealHeads();
   initMgCarousel();
   initVeCarousel();
+  initGdCarousel();
   initTileReveal();
   initProcess();
   initMarquee();
@@ -1730,6 +1841,106 @@ function makeCarousel(stageId, dotsId, prevId, nextId, videos){
     if (Math.abs(diff) > 40) goTo(active + (diff > 0 ? 1 : -1));
   });
   window.addEventListener("resize", render);
+  render();
+}
+
+/* ---------- Graphic Design Fan Carousel ---------- */
+function initGdCarousel(){
+  const fan    = document.getElementById("gdFan");
+  const dotsEl = document.getElementById("gdDots");
+  const prevBtn= document.getElementById("gdPrev");
+  const nextBtn= document.getElementById("gdNext");
+  if (!fan) return;
+
+  /* ── Placeholder cards — replace src/username/likes with real content ── */
+  const items = [
+    { username:"bryanchadwick", likes:"12.4k", caption:"Design 01", src:"https://picsum.photos/seed/gd1/480/700" },
+    { username:"bryanchadwick", likes:"9.8k",  caption:"Design 02", src:"https://picsum.photos/seed/gd2/480/700" },
+    { username:"bryanchadwick", likes:"21.1k", caption:"Design 03", src:"https://picsum.photos/seed/gd3/480/700" },
+    { username:"bryanchadwick", likes:"7.3k",  caption:"Design 04", src:"https://picsum.photos/seed/gd4/480/700" },
+    { username:"bryanchadwick", likes:"15.6k", caption:"Design 05", src:"https://picsum.photos/seed/gd5/480/700" },
+    { username:"bryanchadwick", likes:"11.2k", caption:"Design 06", src:"https://picsum.photos/seed/gd6/480/700" },
+  ];
+
+  let active = 0;
+  const cards = [];
+  const dots  = [];
+
+  items.forEach((item, i) => {
+    const card = document.createElement("div");
+    card.className = "gd-card";
+    card.innerHTML = `
+      <div class="gd-card__header">
+        <div class="gd-card__avatar"><img src="https://picsum.photos/seed/av${i}/80/80" alt="" /></div>
+        <div class="gd-card__meta">
+          <div class="gd-card__username">${item.username}
+            <span class="gd-card__check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1" stroke-width="1.8" stroke="#fff" fill="none" stroke-linecap="round"/></svg></span>
+          </div>
+        </div>
+        <span class="gd-card__more">···</span>
+      </div>
+      <div class="gd-card__image"><img src="${item.src}" alt="${item.caption}" loading="lazy" /></div>
+      <div class="gd-card__footer">
+        <div class="gd-card__actions">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          <svg class="gd-card__bookmark" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div class="gd-card__likes">${item.likes} likes <span>${item.caption}</span></div>
+      </div>`;
+    card.addEventListener("click", () => goTo(i));
+    fan.appendChild(card);
+    cards.push(card);
+
+    const dot = document.createElement("button");
+    dot.className = "gd-fan-dot";
+    dot.setAttribute("aria-label", `Slide ${i + 1}`);
+    dot.addEventListener("click", () => goTo(i));
+    dotsEl.appendChild(dot);
+    dots.push(dot);
+  });
+
+  function render(){
+    const mob = window.innerWidth < 600;
+    cards.forEach((card, i) => {
+      const rel  = i - active;
+      const abs  = Math.abs(rel);
+      const dir  = rel < 0 ? -1 : 1;
+      let tx = 0, ry = 0, scale = 1, opacity = 1, zi = 5, blur = 0;
+      if      (abs === 0){ tx=0;         ry=0;        scale=1;    opacity=1;    zi=5; blur=0; }
+      else if (abs === 1){ tx=dir*200;   ry=-dir*32;  scale=0.82; opacity=0.75; zi=3; blur=1; }
+      else if (abs === 2){ tx=dir*350;   ry=-dir*50;  scale=0.66; opacity=mob?0:0.5; zi=2; blur=3; }
+      else               { tx=dir*480;   ry=-dir*62;  scale=0.52; opacity=0;    zi=1; blur=5; }
+      card.style.transform = `translateX(${tx}px) rotateY(${ry}deg) scale(${scale})`;
+      card.style.opacity   = opacity;
+      card.style.zIndex    = zi;
+      card.style.filter    = blur ? `blur(${blur}px)` : "";
+      card.style.pointerEvents = abs > 2 ? "none" : "auto";
+    });
+    dots.forEach((d, i) => d.classList.toggle("is-active", i === active));
+  }
+
+  function goTo(idx){
+    active = ((idx % items.length) + items.length) % items.length;
+    render();
+  }
+
+  prevBtn.addEventListener("click", () => goTo(active - 1));
+  nextBtn.addEventListener("click", () => goTo(active + 1));
+  let ts = 0;
+  fan.addEventListener("touchstart", e => { ts = e.touches[0].clientX; }, { passive:true });
+  fan.addEventListener("touchend", e => {
+    const diff = ts - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) goTo(active + (diff > 0 ? 1 : -1));
+  });
+  window.addEventListener("resize", render);
+
+  /* auto-advance */
+  let timer = setInterval(() => goTo(active + 1), 3500);
+  fan.addEventListener("mouseenter", () => clearInterval(timer));
+  fan.addEventListener("mouseleave", () => { timer = setInterval(() => goTo(active + 1), 3500); });
+
   render();
 }
 
