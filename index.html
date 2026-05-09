@@ -520,6 +520,16 @@ p{ margin:0; }
   display:flex; align-items:center; justify-content:center;
   overflow:hidden;
 }
+.mg-carousel--vertical .mg-stage{ height:640px; }
+.mg-carousel--vertical .mg-card{ width:360px; height:640px; }
+@media(max-width:900px){
+  .mg-carousel--vertical .mg-stage{ height:520px; }
+  .mg-carousel--vertical .mg-card{ width:293px; height:520px; }
+}
+@media(max-width:600px){
+  .mg-carousel--vertical .mg-stage{ height:420px; }
+  .mg-carousel--vertical .mg-card{ width:236px; height:420px; }
+}
 .mg-card{
   position:absolute;
   width:780px; height:438px; border-radius:16px;
@@ -1365,7 +1375,7 @@ p{ margin:0; }
       </div>
       <span class="cat-hd__desc">Social media &amp;<br>advertising content</span>
     </div>
-    <div class="mg-carousel" id="sfCarousel">
+    <div class="mg-carousel mg-carousel--vertical" id="sfCarousel">
       <div class="mg-stage" id="sfStage"></div>
       <button class="mg-arrow mg-arrow--prev" id="sfPrev" aria-label="Previous">
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
