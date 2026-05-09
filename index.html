@@ -23,8 +23,8 @@
   --muted:     #758696;
   --hairline:  rgba(255,255,255,0.08);
   --hairline-strong: rgba(255,255,255,0.16);
-  --accent:    #ff5a1f;
-  --accent-soft: rgba(255,90,31,0.16);
+  --accent:    #ff1020;
+  --accent-soft: rgba(255,16,32,0.16);
 
   --f-display: "Inter Tight", system-ui, sans-serif;
   --f-mono:    "JetBrains Mono", ui-monospace, monospace;
@@ -179,8 +179,68 @@ p{ margin:0; }
   0%{ transform:scale(.6); opacity:.9; }
   100%{ transform:scale(1.6); opacity:0; }
 }
+/* Mobile hamburger toggle */
+.nav__right{
+  display:flex; align-items:center; gap:12px;
+}
+.nav__toggle{
+  display:none; flex-direction:column; align-items:center; justify-content:center;
+  gap:5px; padding:4px; width:40px; height:40px; z-index:51; position:relative;
+}
+.nav__toggle span{
+  display:block; width:22px; height:1.5px; background:var(--fg);
+  transition:transform .3s var(--ease-out), opacity .2s;
+  transform-origin:center;
+}
+.nav.menu-open .nav__toggle span:nth-child(1){ transform:translateY(6.5px) rotate(45deg); }
+.nav.menu-open .nav__toggle span:nth-child(2){ opacity:0; }
+.nav.menu-open .nav__toggle span:nth-child(3){ transform:translateY(-6.5px) rotate(-45deg); }
+
+/* Full-screen mobile overlay menu */
+.nav__mobile-menu{
+  position:fixed; inset:0; z-index:48;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+  background:rgba(8,8,8,.96); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  opacity:0; pointer-events:none; transition:opacity .4s var(--ease-out);
+  font-family:var(--f-display); font-weight:600; letter-spacing:-0.02em;
+}
+.nav__mobile-menu a{
+  font-size:clamp(38px,10vw,58px); color:var(--fg-dim);
+  padding:10px 24px; transition:color .2s;
+  display:block;
+}
+.nav__mobile-menu a:hover{ color:var(--fg); }
+.nav__mobile-menu .mobile-pill{
+  margin-top:32px;
+  display:inline-flex; align-items:center; gap:10px;
+  padding:10px 18px; border:1px solid var(--hairline-strong); border-radius:999px;
+  font-family:var(--f-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--fg-dim);
+}
+.nav__mobile-menu .mobile-pill .pulse{
+  width:7px; height:7px; border-radius:50%; background:#3ddc97; position:relative;
+}
+.nav__mobile-menu .mobile-pill .pulse::after{
+  content:""; position:absolute; inset:-4px; border-radius:50%; border:1px solid #3ddc97;
+  animation:pulse 1.8s ease-out infinite;
+}
+.nav.menu-open ~ .nav__mobile-menu{ opacity:1; pointer-events:all; }
+.nav.menu-open ~ .nav__mobile-menu a{
+  animation:menuItemIn .45s var(--ease-out) both;
+}
+.nav.menu-open ~ .nav__mobile-menu a:nth-child(1){ animation-delay:.05s; }
+.nav.menu-open ~ .nav__mobile-menu a:nth-child(2){ animation-delay:.1s; }
+.nav.menu-open ~ .nav__mobile-menu a:nth-child(3){ animation-delay:.15s; }
+.nav.menu-open ~ .nav__mobile-menu a:nth-child(4){ animation-delay:.2s; }
+@keyframes menuItemIn{
+  from{ opacity:0; transform:translateY(20px); }
+  to{   opacity:1; transform:translateY(0); }
+}
+
 @media (max-width:760px){
   .nav__links{ display:none; }
+  .nav__toggle{ display:flex; }
+  .nav__pill{ display:none; }
 }
 
 /* ============================================================
@@ -230,14 +290,31 @@ p{ margin:0; }
 .hero__comp .float-icon--pr { top:calc(0.36*var(--w)); left:calc( 0.41*var(--w)); }
 .hero__comp .float-icon--pr2{ top:calc(0.38*var(--w)); left:calc( 0.73*var(--w)); }
 .hero__comp .float-icon--hf { top:calc(0.40*var(--w)); left:calc( 1.04*var(--w)); }
+/* Desktop: transparent wrapper — icons position as if directly inside hero__comp */
+.float-icons-row{ display:contents; }
+
 @media (max-width:600px){
   .hero__comp{ --w:clamp(260px,82vw,380px); }
-  .hero__comp .float-icon{ width:38px; height:38px; font-size:12px; border-radius:8px; }
+  /* On mobile, convert icons from abs-positioned (hidden behind portrait) to a visible flex row */
+  .float-icons-row{
+    display:flex !important;
+    justify-content:center;
+    gap:10px;
+    margin-top:20px;
+    width:100%;
+  }
+  .float-icons-row .float-icon{
+    position:static !important;
+    width:44px !important; height:44px !important;
+    font-size:14px !important; border-radius:10px !important;
+    opacity:1 !important; transform:none !important;
+    flex-shrink:0;
+  }
 }
 .hero::before{
   content:""; position:absolute; left:50%; top:35%; transform:translate(-50%,-50%);
   width:1100px; height:1100px; border-radius:50%; pointer-events:none;
-  background:radial-gradient(closest-side, rgba(255,90,31,.16), transparent 70%);
+  background:radial-gradient(closest-side, rgba(255,16,32,.16), transparent 70%);
   filter:blur(20px); z-index:0;
 }
 .hero__top{
@@ -274,9 +351,17 @@ p{ margin:0; }
   text-align:right; font-family:var(--f-mono); font-size:11px;
   letter-spacing:.14em; color:var(--muted); text-transform:uppercase;
 }
+@media (max-width:900px){
+  .hero{ padding-top:120px; }
+}
 @media (max-width:760px){
+  .hero{ padding-top:96px; padding-bottom:40px; }
   .hero__top .col:nth-child(2){ display:none; }
-  .hero__bottom{ flex-direction:column; align-items:flex-start; }
+  .hero__top{ gap:16px; }
+  .hero__bottom{ flex-direction:column; align-items:flex-start; margin-top:40px; }
+}
+@media (max-width:500px){
+  .hero{ padding-top:80px; padding-bottom:28px; }
 }
 
 /* ============================================================
@@ -321,7 +406,7 @@ p{ margin:0; }
 }
 .float-icon--pr{ background:linear-gradient(145deg,#0e0035,#2a0075); color:#9999ff; animation:fi-a 4.2s ease-in-out infinite; }
 .float-icon--ae{ background:linear-gradient(145deg,#0b0035,#190068); color:#8a8aff; animation:fi-b 3.9s ease-in-out infinite .7s; }
-.float-icon--ai{ background:linear-gradient(145deg,#3c0e00,#7d2e00); color:#ff9a00; animation:fi-c 4.7s ease-in-out infinite 1.2s; }
+.float-icon--ai{ background:linear-gradient(145deg,#3c0008,#7d0018); color:#ff1020; animation:fi-c 4.7s ease-in-out infinite 1.2s; }
 .float-icon--pr2{ background:linear-gradient(145deg,#0e0035,#2a0075); color:#9999ff; animation:fi-c 4.8s ease-in-out infinite .3s; }
 .float-icon--hf{ background:linear-gradient(145deg,#0d0d1e,#1e1b4b); color:#7c6cf6; animation:fi-b 4.5s ease-in-out infinite 1.0s; }
 @keyframes fi-a{
@@ -339,7 +424,7 @@ p{ margin:0; }
 @media (max-width:900px){
   .float-icon{ width:44px; height:44px; font-size:14px; border-radius:10px; }
 }
-@media (max-width:600px){ .float-icon{ display:none; } }
+/* .float-icon visibility on mobile handled by .float-icons-row flex layout */
 
 /* ============================================================
    SHOWREEL
@@ -677,7 +762,10 @@ p{ margin:0; }
 .about{
   display:grid; grid-template-columns:5fr 6fr; gap:64px; align-items:start;
 }
-@media (max-width:900px){ .about{ grid-template-columns:1fr; gap:40px; } }
+@media (max-width:900px){
+  .about{ grid-template-columns:1fr; gap:40px; }
+  .about__portrait{ aspect-ratio:auto; height:clamp(280px,52vw,480px); }
+}
 .about__portrait{
   aspect-ratio:4/5; border-radius:10px; overflow:hidden; position:relative;
   border:1px solid var(--hairline); background:var(--bg-3);
@@ -788,6 +876,13 @@ p{ margin:0; }
 }
 .contact__socials a{ color:var(--fg-dim); transition:color .25s; }
 .contact__socials a:hover{ color:var(--accent); }
+@media (max-width:760px){
+  .contact__row{ flex-direction:column; align-items:flex-start; gap:24px; margin-top:40px; }
+  .contact__cta{ align-self:flex-start; }
+}
+@media (max-width:500px){
+  .contact__email{ font-size:clamp(18px,5vw,24px); }
+}
 
 /* ============================================================
    FOOTER
@@ -851,10 +946,24 @@ p{ margin:0; }
     <a href="#about">About</a>
     <a href="#contact">Contact</a>
   </div>
-  <div class="nav__pill" aria-label="Availability">
-    <span class="pulse"></span>Available · Q3
+  <div class="nav__right">
+    <div class="nav__pill" aria-label="Availability">
+      <span class="pulse"></span>Available · Q3
+    </div>
+    <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<!-- Mobile full-screen menu -->
+<div class="nav__mobile-menu" id="navMobileMenu" aria-label="Mobile navigation" role="dialog" aria-modal="true">
+  <a href="#work">Work</a>
+  <a href="#process">Process</a>
+  <a href="#about">About</a>
+  <a href="#contact">Contact</a>
+  <div class="mobile-pill"><span class="pulse"></span>Available · Q3</div>
+</div>
 
 <main id="top">
 
@@ -944,11 +1053,13 @@ p{ margin:0; }
       <span class="hero__comp-tag-line1">I make things</span>
       <span class="hero__comp-tag-line2"><span class="accent-word">worth looking</span>.</span>
     </p>
-    <div class="float-icon float-icon--ae" aria-hidden="true">Ae</div>
-    <div class="float-icon float-icon--ai" aria-hidden="true">Ai</div>
-    <div class="float-icon float-icon--pr" aria-hidden="true">Pr</div>
-    <div class="float-icon float-icon--pr2" aria-hidden="true">Pr</div>
-    <div class="float-icon float-icon--hf" aria-hidden="true">HF</div>
+    <div class="float-icons-row" aria-hidden="true">
+      <div class="float-icon float-icon--ae">Ae</div>
+      <div class="float-icon float-icon--ai">Ai</div>
+      <div class="float-icon float-icon--pr">Pr</div>
+      <div class="float-icon float-icon--pr2">Pr</div>
+      <div class="float-icon float-icon--hf">HF</div>
+    </div>
   </div>
 
   <div class="hero__bottom">
@@ -1070,11 +1181,32 @@ p{ margin:0; }
     </div>
   </div>
 
-  <!-- 02 Short Form Reels / Ads -->
+  <!-- 02 Video Edit -->
   <div class="cat-section">
     <div class="cat-hd">
       <div class="cat-hd__left">
         <span class="cat-hd__num">02</span>
+        <h2 class="cat-hd__title" data-reveal>Video<br>Edit</h2>
+      </div>
+      <span class="cat-hd__desc">Long-form &amp;<br>narrative edits</span>
+    </div>
+    <div class="mg-carousel" id="veCarousel">
+      <div class="mg-stage" id="veStage"></div>
+      <button class="mg-arrow mg-arrow--prev" id="vePrev" aria-label="Previous">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="mg-arrow mg-arrow--next" id="veNext" aria-label="Next">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="mg-dots" id="veDots"></div>
+    </div>
+  </div>
+
+  <!-- 03 Short Form Reels / Ads -->
+  <div class="cat-section">
+    <div class="cat-hd">
+      <div class="cat-hd__left">
+        <span class="cat-hd__num">03</span>
         <h2 class="cat-hd__title" data-reveal>Short Form<br>Reels / Ads</h2>
       </div>
       <span class="cat-hd__desc">Social media &amp;<br>advertising content</span>
@@ -1111,7 +1243,7 @@ p{ margin:0; }
   <div class="cat-section">
     <div class="cat-hd">
       <div class="cat-hd__left">
-        <span class="cat-hd__num">03</span>
+        <span class="cat-hd__num">04</span>
         <h2 class="cat-hd__title" data-reveal>Logo<br>Animation</h2>
       </div>
       <span class="cat-hd__desc">Brand identity &amp;<br>animated logos</span>
@@ -1353,6 +1485,7 @@ function init(){
   initHero();
   initRevealHeads();
   initMgCarousel();
+  initVeCarousel();
   initTileReveal();
   initProcess();
   initMarquee();
@@ -1361,6 +1494,7 @@ function init(){
   initShowreel();
   initFooterWord();
   initSectionBg();
+  initMobileMenu();
 }
 
 /* ---------- Lenis smooth scroll ---------- */
@@ -1510,49 +1644,48 @@ function initRevealHeads(){
   });
 }
 
-/* ---------- Motion Graphics Carousel ---------- */
-function initMgCarousel(){
-  const stage   = document.getElementById("mgStage");
-  const dotsEl  = document.getElementById("mgDots");
-  const prevBtn = document.getElementById("mgPrev");
-  const nextBtn = document.getElementById("mgNext");
-  if (!stage) return;
-
-  const videos = [
-    { title:"Motion Reel 2024",      tag:"Motion Graphics", src:"https://img.youtube.com/vi/qFirh0wu-Fw/maxresdefault.jpg", youtubeId:"qFirh0wu-Fw" },
-    { title:"Echo — Title Sequence", tag:"Title Design",    src:"https://picsum.photos/seed/mg2/960/540"  },
-    { title:"Mercury, Falling",      tag:"Title Design",    src:"https://picsum.photos/seed/mg3/960/540"  },
-    { title:"Steady Hands",          tag:"Brand Film",      src:"https://picsum.photos/seed/mg4/960/540"  },
-    { title:"Quiet Power",           tag:"Commercial",      src:"https://picsum.photos/seed/mg5/960/540"  },
-  ];
-
-  // Lightbox helpers
-  const modal   = document.getElementById("mgModal");
-  const iframe  = document.getElementById("mgFrame");
-  const closeBtn= document.getElementById("mgModalClose");
-  function openVideo(id){
-    iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+/* ---------- Shared carousel lightbox ---------- */
+(function(){
+  const modal    = document.getElementById("mgModal");
+  const iframe   = document.getElementById("mgFrame");
+  const closeBtn = document.getElementById("mgModalClose");
+  function close(){
+    if (modal)  modal.classList.remove("is-open");
+    if (iframe) iframe.src = "";
+  }
+  if (closeBtn) closeBtn.addEventListener("click", close);
+  if (modal)    modal.querySelector(".mg-modal__bd").addEventListener("click", close);
+  document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+  window._carouselOpen = function(v){
+    if (!modal || !iframe) return;
+    if (v.youtubeId)
+      iframe.src = `https://www.youtube-nocookie.com/embed/${v.youtubeId}?autoplay=1&rel=0`;
+    else if (v.driveId)
+      iframe.src = `https://drive.google.com/file/d/${v.driveId}/preview`;
     modal.classList.add("is-open");
-  }
-  function closeVideo(){
-    modal.classList.remove("is-open");
-    iframe.src = "";
-  }
-  if (closeBtn) closeBtn.addEventListener("click", closeVideo);
-  if (modal)    modal.querySelector(".mg-modal__bd").addEventListener("click", closeVideo);
+  };
+})();
+
+function makeCarousel(stageId, dotsId, prevId, nextId, videos){
+  const stage   = document.getElementById(stageId);
+  const dotsEl  = document.getElementById(dotsId);
+  const prevBtn = document.getElementById(prevId);
+  const nextBtn = document.getElementById(nextId);
+  if (!stage) return;
 
   let active = 0;
 
   videos.forEach((v, i) => {
     const card = document.createElement("div");
     card.className = "mg-card";
-    const playBtn = v.youtubeId
+    const hasPlay = v.youtubeId || v.driveId;
+    const playBtn = hasPlay
       ? `<button class="mg-card__play" aria-label="Play video"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="white" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="white"/></svg></button>`
       : "";
     card.innerHTML = `<img src="${v.src}" alt="${v.title}" loading="lazy" />${playBtn}<div class="mg-card__info"><div class="mg-card__tag">${v.tag}</div><div class="mg-card__title">${v.title}</div></div>`;
     card.addEventListener("click", () => {
-      if (i !== active) { goTo(i); return; }
-      if (v.youtubeId)  { openVideo(v.youtubeId); }
+      if (i !== active){ goTo(i); return; }
+      if (hasPlay && window._carouselOpen) window._carouselOpen(v);
     });
     stage.appendChild(card);
 
@@ -1590,19 +1723,36 @@ function initMgCarousel(){
 
   prevBtn.addEventListener("click", () => goTo(active - 1));
   nextBtn.addEventListener("click", () => goTo(active + 1));
-  document.addEventListener("keydown", e => {
-    if (!document.getElementById("mgCarousel")) return;
-    if (e.key === "ArrowLeft")  goTo(active - 1);
-    if (e.key === "ArrowRight") goTo(active + 1);
-  });
   let ts = 0;
   stage.addEventListener("touchstart", e => { ts = e.touches[0].clientX; }, { passive:true });
-  stage.addEventListener("touchend",   e => {
+  stage.addEventListener("touchend", e => {
     const diff = ts - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 40) goTo(active + (diff > 0 ? 1 : -1));
   });
   window.addEventListener("resize", render);
   render();
+}
+
+/* ---------- Motion Graphics Carousel ---------- */
+function initMgCarousel(){
+  makeCarousel("mgStage", "mgDots", "mgPrev", "mgNext", [
+    { title:"Motion Reel 2024",      tag:"Motion Graphics", src:"https://img.youtube.com/vi/qFirh0wu-Fw/maxresdefault.jpg", youtubeId:"qFirh0wu-Fw" },
+    { title:"Echo — Title Sequence", tag:"Title Design",    src:"https://picsum.photos/seed/mg2/960/540"  },
+    { title:"Mercury, Falling",      tag:"Title Design",    src:"https://picsum.photos/seed/mg3/960/540"  },
+    { title:"Steady Hands",          tag:"Brand Film",      src:"https://picsum.photos/seed/mg4/960/540"  },
+    { title:"Quiet Power",           tag:"Commercial",      src:"https://picsum.photos/seed/mg5/960/540"  },
+  ]);
+}
+
+/* ---------- Video Edit Carousel ---------- */
+function initVeCarousel(){
+  makeCarousel("veStage", "veDots", "vePrev", "veNext", [
+    { title:"Video Edit Reel",   tag:"Video Edit",    src:"https://drive.google.com/thumbnail?id=1y14gu9E58VDcFmDXDoNaqVsH44iRnpcM&sz=w960", driveId:"1y14gu9E58VDcFmDXDoNaqVsH44iRnpcM" },
+    { title:"Documentary Cut",   tag:"Long Form",     src:"https://picsum.photos/seed/ve2/960/540" },
+    { title:"Brand Narrative",   tag:"Brand Film",    src:"https://picsum.photos/seed/ve3/960/540" },
+    { title:"Music Video Edit",  tag:"Music Video",   src:"https://picsum.photos/seed/ve4/960/540" },
+    { title:"Short Documentary", tag:"Documentary",   src:"https://picsum.photos/seed/ve5/960/540" },
+  ]);
 }
 
 /* ---------- Portfolio tile reveal ---------- */
@@ -1722,6 +1872,39 @@ function initFooterWord(){
       scrollTrigger: { trigger: ".footer", start: "top 80%" }
     }
   );
+}
+
+/* ---------- Mobile hamburger menu ---------- */
+function initMobileMenu(){
+  const toggle = document.getElementById("navToggle");
+  const nav    = document.getElementById("nav");
+  const menu   = document.getElementById("navMobileMenu");
+  if (!toggle || !menu) return;
+
+  function openMenu(){
+    nav.classList.add("menu-open");
+    toggle.setAttribute("aria-expanded", "true");
+    toggle.setAttribute("aria-label", "Close menu");
+    document.body.style.overflow = "hidden";
+  }
+  function closeMenu(){
+    nav.classList.remove("menu-open");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Open menu");
+    document.body.style.overflow = "";
+  }
+
+  toggle.addEventListener("click", () => {
+    nav.classList.contains("menu-open") ? closeMenu() : openMenu();
+  });
+
+  menu.querySelectorAll("a").forEach(a => {
+    a.addEventListener("click", closeMenu);
+  });
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && nav.classList.contains("menu-open")) closeMenu();
+  });
 }
 
 /* ---------- Section bg shifts ---------- */
