@@ -618,6 +618,25 @@ p{ margin:0; }
   text-shadow:0 2px 12px rgba(0,0,0,.6);
 }
 .mg-card.is-active .mg-card__cta{ opacity:0; }
+.mg-card__placeholder{
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:20px;
+  background:linear-gradient(135deg, var(--bg-2) 0%, var(--bg-3) 100%);
+}
+.mg-card__placeholder-diamond{
+  width:14px; height:14px; background:var(--accent);
+  transform:rotate(45deg);
+  box-shadow:0 0 20px rgba(255,16,32,.6);
+}
+.mg-card__placeholder-text{
+  font-size:clamp(22px,2.8vw,40px); font-weight:700;
+  letter-spacing:-0.04em; line-height:1; color:#fff; text-align:center;
+}
+.mg-card__placeholder-label{
+  font-family:var(--f-mono); font-size:10px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--muted);
+}
 /* Lightbox modal */
 .mg-modal{
   position:fixed; inset:0; z-index:2000;
@@ -1966,7 +1985,10 @@ function makeCarousel(stageId, dotsId, prevId, nextId, videos, opts = {}){
       ? `<button class="mg-card__play" aria-label="Play video"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="white" stroke-width="1.5"/><path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="white"/></svg></button>`
       : "";
     const ctaEl = v.cta ? `<span class="mg-card__cta">${v.cta}</span>` : "";
-    card.innerHTML = `<img src="${v.src}" alt="${v.title}" loading="lazy" />${playBtn}${ctaEl}<div class="mg-card__info"><div class="mg-card__tag">${v.tag}</div><div class="mg-card__title">${v.title}</div></div>`;
+    const mediaEl = v.noThumb
+      ? `<div class="mg-card__placeholder"><div class="mg-card__placeholder-diamond"></div><div class="mg-card__placeholder-text">Click to<br>view</div><div class="mg-card__placeholder-label">${v.tag}</div></div>`
+      : `<img src="${v.src}" alt="${v.title}" loading="lazy" />`;
+    card.innerHTML = `${mediaEl}${playBtn}${ctaEl}<div class="mg-card__info"><div class="mg-card__tag">${v.tag}</div><div class="mg-card__title">${v.title}</div></div>`;
     card.addEventListener("click", () => {
       if (i !== active){ goTo(i); return; }
       if (hasPlay && window._carouselOpen) window._carouselOpen(v);
@@ -2122,7 +2144,7 @@ function initMgCarousel(){
     { title:"Motion Reel 2024",      tag:"Motion Graphics", src:"https://img.youtube.com/vi/qFirh0wu-Fw/maxresdefault.jpg", youtubeId:"qFirh0wu-Fw" },
     { title:"Motion Graphic 01",    tag:"Motion Graphics", src:"https://drive.google.com/thumbnail?id=1FXaYl_toh0n17SLOec7f3WoSq0dguEMD&sz=w960", driveId:"1FXaYl_toh0n17SLOec7f3WoSq0dguEMD" },
     { title:"Motion Graphic 02",    tag:"Motion Graphics", src:"https://drive.google.com/thumbnail?id=1DhgDwD14YduaCFAay6cXtceeVtXiJ2Bq&sz=w960", driveId:"1DhgDwD14YduaCFAay6cXtceeVtXiJ2Bq" },
-    { title:"Motion Graphic 03",    tag:"Motion Graphics", src:"https://drive.google.com/thumbnail?id=1fbo9-ybS-Miw6Y48dcz6ljo5FzLvDfrN&sz=w960", driveId:"1fbo9-ybS-Miw6Y48dcz6ljo5FzLvDfrN" },
+    { title:"Motion Graphic 03",    tag:"Motion Graphics", noThumb:true, driveId:"1fbo9-ybS-Miw6Y48dcz6ljo5FzLvDfrN" },
     { title:"Motion Graphic 04",    tag:"Motion Graphics", src:"https://drive.google.com/thumbnail?id=1ynJD-WC6bib_I_Go6eQWAb7lBuQtylDs&sz=w960", driveId:"1ynJD-WC6bib_I_Go6eQWAb7lBuQtylDs" },
     { title:"Motion Graphic 05",    tag:"Motion Graphics", src:"https://drive.google.com/thumbnail?id=14aRbCX6lr4Dpx1PpC_8IuERdgZiHH8nG&sz=w960", driveId:"14aRbCX6lr4Dpx1PpC_8IuERdgZiHH8nG" },
     { title:"Motion Graphic 06",    tag:"Motion Graphics", src:"https://drive.google.com/thumbnail?id=1NulJOBmqcb_WcpTI598BcPKRMG5NvIHx&sz=w960", driveId:"1NulJOBmqcb_WcpTI598BcPKRMG5NvIHx" },
