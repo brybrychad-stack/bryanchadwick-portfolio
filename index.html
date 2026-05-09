@@ -837,6 +837,7 @@ p{ margin:0; }
 .tl-track{
   display:flex; align-items:center; position:relative;
   width:max-content; height:260px; padding:0 var(--pad-x);
+  margin:0 auto;
 }
 .tl-track::before{
   content:""; position:absolute; left:0; right:0; top:50%;
@@ -1759,8 +1760,10 @@ function init(){
   initTileReveal();
   initProcess();
   /* center timeline scroll */
-  const tlWrap = document.querySelector(".tl-wrap");
-  if(tlWrap){ const track = tlWrap.querySelector(".tl-track"); tlWrap.scrollLeft = (track.scrollWidth - tlWrap.clientWidth) / 2; }
+  setTimeout(() => {
+    const tlWrap = document.querySelector(".tl-wrap");
+    if(tlWrap){ tlWrap.scrollLeft = (tlWrap.scrollWidth - tlWrap.clientWidth) / 2; }
+  }, 150);
   initMarquee();
   initStats();
   initMagnetics();
