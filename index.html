@@ -937,6 +937,41 @@ p{ margin:0; }
 .tl-desc{ font-size:11px; color:rgba(255,255,255,.5); line-height:1.5; }
 
 /* ============================================================
+   BRANDS STRIP
+============================================================ */
+.brands-strip{
+  background:#f0ede8; overflow:hidden; padding:18px 0;
+  position:relative; border-top:1px solid rgba(0,0,0,.07); border-bottom:1px solid rgba(0,0,0,.07);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+}
+.brands-strip__label{
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  font-size:9px; letter-spacing:.22em; text-transform:uppercase;
+  color:rgba(0,0,0,.35); white-space:nowrap; pointer-events:none; z-index:2;
+}
+.brands-strip__track{
+  display:flex; align-items:center; gap:0; white-space:nowrap;
+  will-change:transform; animation:brandScroll 28s linear infinite;
+}
+.brands-strip__track:hover{ animation-play-state:paused; }
+@keyframes brandScroll{
+  from{ transform:translateX(0); }
+  to{   transform:translateX(-50%); }
+}
+.brand-logo{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:0 52px; height:56px;
+  font-size:clamp(13px,1.6vw,20px); font-weight:700; letter-spacing:.06em;
+  text-transform:uppercase; color:rgba(0,0,0,.28);
+  border-right:1px solid rgba(0,0,0,.10);
+  transition:color .25s;
+  user-select:none;
+}
+.brand-logo:last-child{ border-right:none; }
+.brand-logo svg{ width:auto; height:28px; fill:rgba(0,0,0,.28); display:block; }
+
+/* ============================================================
    MARQUEE / TOOLS
 ============================================================ */
 .marquee{
@@ -1312,6 +1347,33 @@ p{ margin:0; }
     </div>
   </div>
 </section>
+
+<!-- ============================================================
+     BRANDS STRIP
+============================================================ -->
+<div class="brands-strip" aria-label="Brands I've designed for">
+  <span class="brands-strip__label">Brands I've designed for</span>
+  <div class="brands-strip__track" id="brandsTrack">
+    <!-- set 1 -->
+    <span class="brand-logo">Thrive</span>
+    <span class="brand-logo">80Deep</span>
+    <span class="brand-logo">LUMINA</span>
+    <span class="brand-logo">KOEN</span>
+    <span class="brand-logo">NHance</span>
+    <span class="brand-logo">Vira</span>
+    <span class="brand-logo">Arcline</span>
+    <span class="brand-logo">Solace</span>
+    <!-- set 2 (duplicate for seamless loop) -->
+    <span class="brand-logo">Thrive</span>
+    <span class="brand-logo">80Deep</span>
+    <span class="brand-logo">LUMINA</span>
+    <span class="brand-logo">KOEN</span>
+    <span class="brand-logo">NHance</span>
+    <span class="brand-logo">Vira</span>
+    <span class="brand-logo">Arcline</span>
+    <span class="brand-logo">Solace</span>
+  </div>
+</div>
 
 <!-- ============================================================
      TESTIMONIALS
