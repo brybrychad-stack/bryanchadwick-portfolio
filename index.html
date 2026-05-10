@@ -970,49 +970,55 @@ p{ margin:0; }
   .about__portrait{ aspect-ratio:auto; height:clamp(280px,52vw,480px); }
 }
 .about__portrait{
-  position:relative; aspect-ratio:4/5;
-  padding-right:68px;
+  position:relative; aspect-ratio:3/4;
+  border-radius:32px; overflow:visible;
+  background:linear-gradient(160deg,#1a0a0a 0%,#0d0d14 100%);
+  border:1px solid rgba(255,16,32,.18);
 }
-@media(max-width:900px){ .about__portrait{ padding-right:56px; height:clamp(320px,60vw,520px); aspect-ratio:auto; } }
-.portrait-card{
-  position:absolute; right:0; top:8%; bottom:0; width:78%;
-  border-radius:28px;
-  background:linear-gradient(145deg, rgba(255,16,32,.08) 0%, var(--bg-2) 100%);
-  border:1px solid rgba(255,16,32,.22);
-}
+@media(max-width:900px){ .about__portrait{ aspect-ratio:auto; height:clamp(340px,72vw,540px); } }
 .portrait-photo{
-  position:absolute; left:0; bottom:0; top:0;
-  width:76%; height:100%;
-  object-fit:cover; object-position:top center;
-  border-radius:20px; z-index:1; display:block;
+  width:100%; height:100%; object-fit:cover; object-position:top center;
+  border-radius:32px; display:block; position:relative; z-index:1;
 }
 .portrait-sig{
-  position:absolute; top:13%; right:5%;
-  font-size:clamp(15px,1.6vw,22px); font-weight:300; font-style:italic;
-  color:rgba(255,255,255,.28); line-height:1.25; letter-spacing:.02em;
-  pointer-events:none; z-index:2;
+  position:absolute; top:10%; left:7%; z-index:2; pointer-events:none;
+  font-size:clamp(18px,2.2vw,32px); font-weight:300; font-style:italic;
+  color:rgba(255,255,255,.55); line-height:1.2; letter-spacing:.01em;
+  text-shadow:0 2px 12px rgba(0,0,0,.4);
 }
+.portrait-topbtn{
+  position:absolute; top:-22px; right:-22px; z-index:4;
+  width:60px; height:60px; border-radius:50%;
+  background:#0d0d14; border:2px solid var(--hairline-strong);
+  display:flex; align-items:center; justify-content:center;
+  color:rgba(255,255,255,.7); text-decoration:none;
+  transition:background .3s, color .3s;
+}
+.portrait-topbtn:hover{ background:var(--accent); color:#fff; border-color:var(--accent); }
+.portrait-topbtn svg{ width:24px; height:24px; stroke:currentColor; fill:none; stroke-width:1.5; }
 .portrait-side{
-  position:absolute; right:0; top:22%; bottom:10%;
-  display:flex; flex-direction:column; align-items:center;
-  justify-content:flex-start; gap:14px; z-index:3;
+  position:absolute; left:-28px; bottom:10%;
+  display:flex; flex-direction:column; align-items:center; gap:12px; z-index:4;
 }
 .portrait-bubble{
-  width:50px; height:50px; border-radius:50%;
-  overflow:hidden; border:2px solid var(--hairline-strong);
+  width:58px; height:58px; border-radius:50%;
+  overflow:hidden; border:3px solid var(--bg-1);
   background:var(--bg-3); flex-shrink:0;
+  box-shadow:0 4px 16px rgba(0,0,0,.4);
 }
 .portrait-bubble img{ width:100%; height:100%; object-fit:cover; }
 .portrait-arrow{
-  width:50px; height:50px; border-radius:50%;
-  background:var(--accent); display:flex; align-items:center; justify-content:center;
-  color:#fff; font-size:22px; text-decoration:none; flex-shrink:0;
-  transition:transform .3s, background .3s; margin-top:auto;
+  width:58px; height:58px; border-radius:50%;
+  background:#0d0d14; border:2px solid var(--hairline-strong);
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; font-size:20px; text-decoration:none; flex-shrink:0;
+  box-shadow:0 4px 16px rgba(0,0,0,.4);
+  transition:background .3s, transform .3s;
 }
-.portrait-arrow:hover{ background:#fff; color:#000; transform:scale(1.1); }
+.portrait-arrow:hover{ background:var(--accent); transform:scale(1.1); }
 .about__caption{
-  position:absolute; bottom:12px; left:4px; right:72px;
-  font-family:var(--f-mono); font-size:10px; letter-spacing:.14em; color:rgba(255,255,255,.4);
+  position:absolute; bottom:14px; left:14px; right:14px;
+  font-family:var(--f-mono); font-size:10px; letter-spacing:.14em; color:rgba(255,255,255,.35);
   text-transform:uppercase; display:flex; justify-content:space-between; z-index:2;
 }
 .about__body p{ color:var(--fg-dim); margin-top:24px; }
@@ -1584,13 +1590,15 @@ p{ margin:0; }
     <span class="eyebrow"><span class="bar"></span><span class="num">04</span> — About</span>
     <div class="about" style="margin-top:48px;">
       <div class="about__portrait">
-        <div class="portrait-card"></div>
         <img class="portrait-photo" src="assets/Me.jpg" alt="Bryan Chadwick" loading="eager" />
         <div class="portrait-sig">Bryan<br>Chadwick</div>
+        <a class="portrait-topbtn" href="https://instagram.com/brynbrnls" target="_blank" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
         <div class="portrait-side">
           <div class="portrait-bubble"><img src="assets/portrait.png" alt="" /></div>
           <div class="portrait-bubble"><img src="assets/Me.jpg" alt="" /></div>
-          <a class="portrait-arrow" href="#contact">→</a>
+          <a class="portrait-arrow" href="#contact" aria-label="Contact">↗</a>
         </div>
         <div class="about__caption"><span>Philippines · 03:14</span><span>Frame 0001</span></div>
       </div>
