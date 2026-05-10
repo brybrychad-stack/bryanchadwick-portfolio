@@ -948,9 +948,9 @@ p{ margin:0; }
    BRANDS STRIP
 ============================================================ */
 .brands-strip{
-  background:var(--bg); overflow:hidden; padding:0;
-  position:relative;
-  border-top:1px solid var(--hairline); border-bottom:1px solid var(--hairline);
+  background:transparent; overflow:hidden; padding:0;
+  position:relative; width:100%;
+  border-top:1px solid var(--hairline);
 }
 .brands-strip__label{
   display:block; text-align:center;
@@ -967,12 +967,6 @@ p{ margin:0; }
 .brands-strip__track{
   display:flex; align-items:center; gap:0; white-space:nowrap;
   will-change:transform;
-  animation:brandScroll 22s linear infinite;
-  animation-play-state:running !important;
-}
-@keyframes brandScroll{
-  0%  { transform:translateX(0); }
-  100%{ transform:translateX(-50%); }
 }
 .brand-logo{
   display:inline-flex; align-items:center; justify-content:center;
@@ -1402,35 +1396,33 @@ p{ margin:0; }
     </div>
   </div>
 
+  <!-- Companies strip inside hero -->
+  <div class="brands-strip" aria-label="Companies I've worked with">
+    <span class="brands-strip__label">Companies I've worked with</span>
+    <div class="brands-strip__scroll">
+      <div class="brands-strip__track" id="brandsTrack">
+        <!-- set 1 -->
+        <span class="brand-logo brand-logo--lg"><img src="assets/Company%20logo/Adzu.png" alt="Adzu" /></span>
+        <span class="brand-logo"><img src="assets/Company%20logo/BSK.png" alt="BSK" /></span>
+        <span class="brand-logo brand-logo--lg"><img src="assets/Company%20logo/Citronfilms.png" alt="Citron Films" /></span>
+        <span class="brand-logo"><img src="assets/Company%20logo/Delesign.png" alt="Delesign" /></span>
+        <span class="brand-logo"><img src="assets/Company%20logo/Screenshot_2026-05-10_at_9.35.05_PM-removebg-preview.png" alt="Company" /></span>
+        <span class="brand-logo"><img src="assets/Company%20logo/Yeaps.png" alt="Yeaps" /></span>
+        <!-- set 2 (duplicate for seamless JS loop) -->
+        <span class="brand-logo brand-logo--lg"><img src="assets/Company%20logo/Adzu.png" alt="Adzu" /></span>
+        <span class="brand-logo"><img src="assets/Company%20logo/BSK.png" alt="BSK" /></span>
+        <span class="brand-logo brand-logo--lg"><img src="assets/Company%20logo/Citronfilms.png" alt="Citron Films" /></span>
+        <span class="brand-logo"><img src="assets/Company%20logo/Delesign.png" alt="Delesign" /></span>
+        <span class="brand-logo"><img src="assets/Company%20logo/Screenshot_2026-05-10_at_9.35.05_PM-removebg-preview.png" alt="Company" /></span>
+        <span class="brand-logo"><img src="assets/Company%20logo/Yeaps.png" alt="Yeaps" /></span>
+      </div>
+    </div>
+  </div>
+
   <div class="hero__bottom">
     <div class="scroll-cue"><span class="line"></span><span>Scroll</span></div>
   </div>
 </section>
-
-<!-- ============================================================
-     BRANDS STRIP
-============================================================ -->
-<div class="brands-strip" aria-label="Companies I've worked with">
-  <span class="brands-strip__label">Companies I've worked with</span>
-  <div class="brands-strip__scroll">
-    <div class="brands-strip__track" id="brandsTrack">
-      <!-- set 1 -->
-      <span class="brand-logo brand-logo--lg"><img src="assets/Company%20logo/Adzu.png" alt="Adzu" /></span>
-      <span class="brand-logo"><img src="assets/Company%20logo/BSK.png" alt="BSK" /></span>
-      <span class="brand-logo brand-logo--lg"><img src="assets/Company%20logo/Citronfilms.png" alt="Citron Films" /></span>
-      <span class="brand-logo"><img src="assets/Company%20logo/Delesign.png" alt="Delesign" /></span>
-      <span class="brand-logo"><img src="assets/Company%20logo/Screenshot_2026-05-10_at_9.35.05_PM-removebg-preview.png" alt="Company" /></span>
-      <span class="brand-logo"><img src="assets/Company%20logo/Yeaps.png" alt="Yeaps" /></span>
-      <!-- set 2 (duplicate for seamless loop) -->
-      <span class="brand-logo brand-logo--lg"><img src="assets/Company%20logo/Adzu.png" alt="Adzu" /></span>
-      <span class="brand-logo"><img src="assets/Company%20logo/BSK.png" alt="BSK" /></span>
-      <span class="brand-logo brand-logo--lg"><img src="assets/Company%20logo/Citronfilms.png" alt="Citron Films" /></span>
-      <span class="brand-logo"><img src="assets/Company%20logo/Delesign.png" alt="Delesign" /></span>
-      <span class="brand-logo"><img src="assets/Company%20logo/Screenshot_2026-05-10_at_9.35.05_PM-removebg-preview.png" alt="Company" /></span>
-      <span class="brand-logo"><img src="assets/Company%20logo/Yeaps.png" alt="Yeaps" /></span>
-    </div>
-  </div>
-</div>
 
 <!-- ============================================================
      TESTIMONIALS
@@ -1979,6 +1971,7 @@ function init(){
   initGdCarousel();
   initLaCarousel();
   initVtCarousel();
+  initBrandsScroll();
   initTileReveal();
   initProcess();
   /* center timeline scroll */
@@ -2358,6 +2351,22 @@ function initMgCarousel(){
 }
 
 /* ---------- Video Testimonials Carousel ---------- */
+/* ---------- Brands infinite scroll ---------- */
+function initBrandsScroll(){
+  const track = document.getElementById("brandsTrack");
+  if(!track) return;
+  let x = 0;
+  const speed = 0.6;
+  function tick(){
+    x -= speed;
+    const half = track.scrollWidth / 2;
+    if(Math.abs(x) >= half) x = 0;
+    track.style.transform = `translateX(${x}px)`;
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
 function initVtCarousel(){
   const items = [
     { label:"Client Testimonial 01" },
