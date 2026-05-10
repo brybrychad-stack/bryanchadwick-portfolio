@@ -1080,10 +1080,54 @@ p{ margin:0; }
 /* ============================================================
    TESTIMONIALS
 ============================================================ */
-.quotes{
-  display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:48px;
+/* Testimonials two-col layout */
+.testi-wrap{ display:grid; grid-template-columns:1fr 340px; gap:64px; align-items:start; }
+@media(max-width:1100px){ .testi-wrap{ grid-template-columns:1fr 280px; gap:40px; } }
+@media(max-width:800px){ .testi-wrap{ grid-template-columns:1fr; } }
+.testi-right{ display:flex; flex-direction:column; gap:20px; }
+.vt-title{ font-size:clamp(13px,1.4vw,16px); font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+/* Mini portrait carousel for video testimonials */
+.vt-carousel{ position:relative; }
+.vt-stage{ position:relative; height:480px; overflow:hidden; border-radius:16px; background:var(--bg-2); }
+@media(max-width:1100px){ .vt-stage{ height:400px; } }
+@media(max-width:800px){ .vt-stage{ height:520px; } }
+.vt-card{
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  border-radius:16px; overflow:hidden; cursor:pointer;
+  transition:opacity .5s, transform .5s var(--ease-out);
 }
-@media (max-width:900px){ .quotes{ grid-template-columns:1fr; } }
+.vt-card.is-active{ opacity:1; transform:translateX(0) scale(1); z-index:2; }
+.vt-card.is-prev{ opacity:0; transform:translateX(-30px) scale(.95); z-index:1; pointer-events:none; }
+.vt-card.is-next{ opacity:0; transform:translateX(30px) scale(.95); z-index:1; pointer-events:none; }
+.vt-card iframe{ width:100%; height:100%; border:none; pointer-events:none; }
+.vt-card.is-active iframe{ pointer-events:auto; }
+.vt-card__placeholder{
+  width:100%; height:100%; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:16px;
+  background:linear-gradient(160deg,var(--bg-2),var(--bg-3));
+}
+.vt-card__placeholder svg{ width:48px; height:48px; color:var(--accent); opacity:.6; }
+.vt-card__placeholder span{ font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+.vt-nav{ display:flex; align-items:center; justify-content:space-between; margin-top:16px; }
+.vt-dots{ display:flex; gap:8px; }
+.vt-dot{
+  width:6px; height:6px; border-radius:50%; background:var(--hairline-strong);
+  border:none; cursor:pointer; transition:background .3s, transform .3s;
+}
+.vt-dot.is-active{ background:var(--accent); transform:scale(1.4); }
+.vt-arrows{ display:flex; gap:8px; }
+.vt-arrow{
+  width:36px; height:36px; border-radius:50%; border:1px solid var(--hairline-strong);
+  background:transparent; color:var(--fg); cursor:pointer; font-size:16px;
+  display:flex; align-items:center; justify-content:center;
+  transition:border-color .3s, background .3s;
+}
+.vt-arrow:hover{ border-color:var(--accent); background:var(--accent); color:#fff; }
+
+.quotes{
+  display:grid; grid-template-columns:1fr; gap:24px; margin-top:48px;
+}
+@media(max-width:900px){ .quotes{ grid-template-columns:1fr; } }
 .quote{
   padding:32px; border:1px solid var(--hairline); border-radius:12px;
   background:var(--bg-2); display:flex; flex-direction:column; gap:24px;
@@ -1397,22 +1441,41 @@ p{ margin:0; }
   <div class="wrap">
     <span class="eyebrow"><span class="bar"></span><span class="num">05</span> — Words</span>
     <h2 data-reveal style="margin-top:18px; max-width:18ch;">A few people I've worked with.</h2>
-    <div class="quotes">
-      <article class="quote">
-        <span class="quote__mark">"</span>
-        <p class="quote__text">Bryan finds the cut three days before anyone else does. He's the only editor I send the messy first selects to anymore.</p>
-        <div class="quote__cite"><span class="quote__name">Mira Halberg</span><span class="quote__role">Director · Ferry &amp; Co.</span></div>
-      </article>
-      <article class="quote">
-        <span class="quote__mark">"</span>
-        <p class="quote__text">Pacing instincts you can't teach. Half the brief was solved by the time the rough cut landed in the channel.</p>
-        <div class="quote__cite"><span class="quote__name">Jules Tanaka</span><span class="quote__role">ECD · Northsea Studio</span></div>
-      </article>
-      <article class="quote">
-        <span class="quote__mark">"</span>
-        <p class="quote__text">Quietly the best title designer we've worked with. Doesn't oversell, ships clean, makes the show feel like itself.</p>
-        <div class="quote__cite"><span class="quote__name">Devon Aluko</span><span class="quote__role">Showrunner · FX</span></div>
-      </article>
+    <div class="testi-wrap">
+      <!-- Text testimonials -->
+      <div class="testi-left">
+        <div class="quotes">
+          <article class="quote">
+            <span class="quote__mark">"</span>
+            <p class="quote__text">Bryan finds the cut three days before anyone else does. He's the only editor I send the messy first selects to anymore.</p>
+            <div class="quote__cite"><span class="quote__name">Mira Halberg</span><span class="quote__role">Director · Ferry &amp; Co.</span></div>
+          </article>
+          <article class="quote">
+            <span class="quote__mark">"</span>
+            <p class="quote__text">Pacing instincts you can't teach. Half the brief was solved by the time the rough cut landed in the channel.</p>
+            <div class="quote__cite"><span class="quote__name">Jules Tanaka</span><span class="quote__role">ECD · Northsea Studio</span></div>
+          </article>
+          <article class="quote">
+            <span class="quote__mark">"</span>
+            <p class="quote__text">Quietly the best title designer we've worked with. Doesn't oversell, ships clean, makes the show feel like itself.</p>
+            <div class="quote__cite"><span class="quote__name">Devon Aluko</span><span class="quote__role">Showrunner · FX</span></div>
+          </article>
+        </div>
+      </div>
+      <!-- Video testimonials carousel -->
+      <div class="testi-right">
+        <p class="vt-title">Video Testimonials</p>
+        <div class="vt-carousel">
+          <div class="vt-stage" id="vtStage"></div>
+          <div class="vt-nav">
+            <div class="vt-dots" id="vtDots"></div>
+            <div class="vt-arrows">
+              <button class="vt-arrow" id="vtPrev" aria-label="Previous">&#8592;</button>
+              <button class="vt-arrow" id="vtNext" aria-label="Next">&#8594;</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1909,6 +1972,7 @@ function init(){
   initSfCarousel();
   initGdCarousel();
   initLaCarousel();
+  initVtCarousel();
   initTileReveal();
   initProcess();
   /* center timeline scroll */
@@ -2277,6 +2341,43 @@ function initMgCarousel(){
     { title:"Motion Graphic 06",    tag:"Motion Graphics", src:"https://drive.google.com/thumbnail?id=1NulJOBmqcb_WcpTI598BcPKRMG5NvIHx&sz=w960", driveId:"1NulJOBmqcb_WcpTI598BcPKRMG5NvIHx" },
     { title:"Motion Graphic 07",    tag:"Motion Graphics", src:"https://drive.google.com/thumbnail?id=1aFmxbVsdys8BXWASEGUpyMtmmIP22uOM&sz=w960", driveId:"1aFmxbVsdys8BXWASEGUpyMtmmIP22uOM" },
   ]);
+}
+
+/* ---------- Video Testimonials Carousel ---------- */
+function initVtCarousel(){
+  const items = [
+    { label:"Client Testimonial 01" },
+    { label:"Client Testimonial 02" },
+    { label:"Client Testimonial 03" },
+  ];
+  const stage = document.getElementById("vtStage");
+  const dotsEl = document.getElementById("vtDots");
+  if(!stage) return;
+  let active = 0;
+
+  stage.innerHTML = items.map((v,i)=>`
+    <div class="vt-card${i===0?' is-active':i===1?' is-next':' is-prev'}" data-i="${i}">
+      <div class="vt-card__placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/>
+        </svg>
+        <span>${v.label}</span>
+      </div>
+    </div>`).join("");
+
+  dotsEl.innerHTML = items.map((_,i)=>`<button class="vt-dot${i===0?' is-active':''}" data-i="${i}"></button>`).join("");
+
+  function go(idx){
+    active = (idx + items.length) % items.length;
+    stage.querySelectorAll(".vt-card").forEach((c,i)=>{
+      c.className = "vt-card" + (i===active?" is-active":i===(active+1)%items.length?" is-next":" is-prev");
+    });
+    dotsEl.querySelectorAll(".vt-dot").forEach((d,i)=> d.classList.toggle("is-active",i===active));
+  }
+
+  document.getElementById("vtPrev").addEventListener("click",()=>go(active-1));
+  document.getElementById("vtNext").addEventListener("click",()=>go(active+1));
+  dotsEl.addEventListener("click",e=>{ if(e.target.dataset.i) go(+e.target.dataset.i); });
 }
 
 /* ---------- Video Edit Carousel ---------- */
