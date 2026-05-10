@@ -375,9 +375,18 @@ p{ margin:0; }
 }
 .tool-icon{
   position:absolute; left:var(--x); top:var(--y); color:#fff;
+  pointer-events:auto; cursor:default;
+  transition:color .3s, filter .3s, transform .35s cubic-bezier(.34,1.56,.64,1);
   animation:
     ti-in 1.4s ease-out var(--del,0s) both,
     ti-fl var(--d,7s) ease-in-out var(--del,0s) infinite;
+}
+.tool-icon:hover{
+  color:var(--accent);
+  filter:drop-shadow(0 0 8px rgba(255,16,32,.7));
+  transform:scale(1.6) translateY(-4px);
+  animation-play-state:paused;
+  z-index:10;
 }
 .tool-icon svg{
   display:block; width:var(--sz,26px); height:var(--sz,26px);
