@@ -946,36 +946,38 @@ p{ margin:0; }
 }
 .brands-strip__label{
   display:block; text-align:center;
-  padding:22px 0 14px;
-  font-size:9px; letter-spacing:.22em; text-transform:uppercase;
-  color:rgba(255,255,255,.3); white-space:nowrap; pointer-events:none;
+  padding:28px 0 18px;
+  font-size:11px; letter-spacing:.28em; text-transform:uppercase;
+  color:rgba(255,255,255,.6); white-space:nowrap; pointer-events:none;
 }
 .brands-strip__scroll{
   overflow:hidden;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
           mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
-  padding-bottom:20px;
+  padding-bottom:24px;
 }
 .brands-strip__track{
   display:flex; align-items:center; gap:0; white-space:nowrap;
-  will-change:transform; animation:brandScroll 28s linear infinite;
+  will-change:transform;
+  animation:brandScroll 22s linear infinite;
+  animation-play-state:running !important;
 }
-.brands-strip__track:hover{ animation-play-state:paused; }
 @keyframes brandScroll{
-  from{ transform:translateX(0); }
-  to{   transform:translateX(-50%); }
+  0%  { transform:translateX(0); }
+  100%{ transform:translateX(-50%); }
 }
 .brand-logo{
   display:inline-flex; align-items:center; justify-content:center;
-  padding:0 52px; height:60px;
+  padding:0 60px; height:70px;
   border-right:1px solid rgba(255,255,255,.08);
-  filter:grayscale(1) brightness(1.8);
-  opacity:.55;
+  filter:grayscale(1) brightness(2);
+  opacity:.65;
   user-select:none;
+  flex-shrink:0;
 }
 .brand-logo:last-child{ border-right:none; }
-.brand-logo img{ height:44px; width:auto; display:block; object-fit:contain; }
-.brand-logo svg{ width:auto; height:32px; fill:currentColor; display:block; }
+.brand-logo img{ height:52px; width:auto; display:block; object-fit:contain; }
+.brand-logo svg{ width:auto; height:36px; fill:currentColor; display:block; }
 
 /* ============================================================
    MARQUEE / TOOLS
