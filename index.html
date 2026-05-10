@@ -383,10 +383,12 @@ p{ margin:0; }
 }
 .tool-icon:hover{
   color:var(--accent);
-  filter:drop-shadow(0 0 8px rgba(255,16,32,.7));
-  transform:scale(1.6) translateY(-4px);
+  opacity:1 !important;
+  filter:drop-shadow(0 0 10px rgba(255,16,32,.8));
+  transform:scale(2) translateY(-4px);
   animation-play-state:paused;
   z-index:10;
+  position:relative;
 }
 .tool-icon svg{
   display:block; width:var(--sz,26px); height:var(--sz,26px);
