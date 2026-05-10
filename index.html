@@ -968,15 +968,15 @@ p{ margin:0; }
 .brand-logo{
   display:inline-flex; align-items:center; justify-content:center;
   padding:0 52px; height:52px;
-  font-size:clamp(13px,1.6vw,20px); font-weight:700; letter-spacing:.06em;
-  text-transform:uppercase; color:rgba(255,255,255,.22);
   border-right:1px solid rgba(255,255,255,.08);
-  transition:color .25s, filter .25s;
-  filter:grayscale(1);
+  transition:filter .3s, opacity .3s;
+  filter:grayscale(1) brightness(2);
+  opacity:.35;
   user-select:none;
 }
-.brand-logo:hover{ color:rgba(255,255,255,.7); filter:grayscale(0); }
+.brand-logo:hover{ opacity:.85; filter:grayscale(0) brightness(1.4); }
 .brand-logo:last-child{ border-right:none; }
+.brand-logo img{ height:32px; width:auto; display:block; object-fit:contain; }
 .brand-logo svg{ width:auto; height:26px; fill:currentColor; display:block; }
 
 /* ============================================================
@@ -1364,23 +1364,19 @@ p{ margin:0; }
   <div class="brands-strip__scroll">
     <div class="brands-strip__track" id="brandsTrack">
       <!-- set 1 -->
-      <span class="brand-logo">Thrive</span>
-      <span class="brand-logo">80Deep</span>
-      <span class="brand-logo">LUMINA</span>
-      <span class="brand-logo">KOEN</span>
-      <span class="brand-logo">NHance</span>
-      <span class="brand-logo">Vira</span>
-      <span class="brand-logo">Arcline</span>
-      <span class="brand-logo">Solace</span>
+      <span class="brand-logo"><img src="assets/Company%20logo/Adzu.png" alt="Adzu" /></span>
+      <span class="brand-logo"><img src="assets/Company%20logo/BSK.png" alt="BSK" /></span>
+      <span class="brand-logo"><img src="assets/Company%20logo/Citronfilms.png" alt="Citron Films" /></span>
+      <span class="brand-logo"><img src="assets/Company%20logo/Delesign.png" alt="Delesign" /></span>
+      <span class="brand-logo"><img src="assets/Company%20logo/Screenshot_2026-05-10_at_9.35.05_PM-removebg-preview.png" alt="Company" /></span>
+      <span class="brand-logo"><img src="assets/Company%20logo/Yeaps.png" alt="Yeaps" /></span>
       <!-- set 2 (duplicate for seamless loop) -->
-      <span class="brand-logo">Thrive</span>
-      <span class="brand-logo">80Deep</span>
-      <span class="brand-logo">LUMINA</span>
-      <span class="brand-logo">KOEN</span>
-      <span class="brand-logo">NHance</span>
-      <span class="brand-logo">Vira</span>
-      <span class="brand-logo">Arcline</span>
-      <span class="brand-logo">Solace</span>
+      <span class="brand-logo"><img src="assets/Company%20logo/Adzu.png" alt="Adzu" /></span>
+      <span class="brand-logo"><img src="assets/Company%20logo/BSK.png" alt="BSK" /></span>
+      <span class="brand-logo"><img src="assets/Company%20logo/Citronfilms.png" alt="Citron Films" /></span>
+      <span class="brand-logo"><img src="assets/Company%20logo/Delesign.png" alt="Delesign" /></span>
+      <span class="brand-logo"><img src="assets/Company%20logo/Screenshot_2026-05-10_at_9.35.05_PM-removebg-preview.png" alt="Company" /></span>
+      <span class="brand-logo"><img src="assets/Company%20logo/Yeaps.png" alt="Yeaps" /></span>
     </div>
   </div>
 </div>
