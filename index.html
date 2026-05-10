@@ -940,15 +940,21 @@ p{ margin:0; }
    BRANDS STRIP
 ============================================================ */
 .brands-strip{
-  background:#f0ede8; overflow:hidden; padding:18px 0;
-  position:relative; border-top:1px solid rgba(0,0,0,.07); border-bottom:1px solid rgba(0,0,0,.07);
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
-          mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  background:var(--bg); overflow:hidden; padding:0;
+  position:relative;
+  border-top:1px solid var(--hairline); border-bottom:1px solid var(--hairline);
 }
 .brands-strip__label{
-  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  display:block; text-align:center;
+  padding:22px 0 14px;
   font-size:9px; letter-spacing:.22em; text-transform:uppercase;
-  color:rgba(0,0,0,.35); white-space:nowrap; pointer-events:none; z-index:2;
+  color:rgba(255,255,255,.3); white-space:nowrap; pointer-events:none;
+}
+.brands-strip__scroll{
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  padding-bottom:20px;
 }
 .brands-strip__track{
   display:flex; align-items:center; gap:0; white-space:nowrap;
@@ -961,15 +967,17 @@ p{ margin:0; }
 }
 .brand-logo{
   display:inline-flex; align-items:center; justify-content:center;
-  padding:0 52px; height:56px;
+  padding:0 52px; height:52px;
   font-size:clamp(13px,1.6vw,20px); font-weight:700; letter-spacing:.06em;
-  text-transform:uppercase; color:rgba(0,0,0,.28);
-  border-right:1px solid rgba(0,0,0,.10);
-  transition:color .25s;
+  text-transform:uppercase; color:rgba(255,255,255,.22);
+  border-right:1px solid rgba(255,255,255,.08);
+  transition:color .25s, filter .25s;
+  filter:grayscale(1);
   user-select:none;
 }
+.brand-logo:hover{ color:rgba(255,255,255,.7); filter:grayscale(0); }
 .brand-logo:last-child{ border-right:none; }
-.brand-logo svg{ width:auto; height:28px; fill:rgba(0,0,0,.28); display:block; }
+.brand-logo svg{ width:auto; height:26px; fill:currentColor; display:block; }
 
 /* ============================================================
    MARQUEE / TOOLS
@@ -1351,27 +1359,29 @@ p{ margin:0; }
 <!-- ============================================================
      BRANDS STRIP
 ============================================================ -->
-<div class="brands-strip" aria-label="Brands I've designed for">
-  <span class="brands-strip__label">Brands I've designed for</span>
-  <div class="brands-strip__track" id="brandsTrack">
-    <!-- set 1 -->
-    <span class="brand-logo">Thrive</span>
-    <span class="brand-logo">80Deep</span>
-    <span class="brand-logo">LUMINA</span>
-    <span class="brand-logo">KOEN</span>
-    <span class="brand-logo">NHance</span>
-    <span class="brand-logo">Vira</span>
-    <span class="brand-logo">Arcline</span>
-    <span class="brand-logo">Solace</span>
-    <!-- set 2 (duplicate for seamless loop) -->
-    <span class="brand-logo">Thrive</span>
-    <span class="brand-logo">80Deep</span>
-    <span class="brand-logo">LUMINA</span>
-    <span class="brand-logo">KOEN</span>
-    <span class="brand-logo">NHance</span>
-    <span class="brand-logo">Vira</span>
-    <span class="brand-logo">Arcline</span>
-    <span class="brand-logo">Solace</span>
+<div class="brands-strip" aria-label="Companies I've worked with">
+  <span class="brands-strip__label">Companies I've worked with</span>
+  <div class="brands-strip__scroll">
+    <div class="brands-strip__track" id="brandsTrack">
+      <!-- set 1 -->
+      <span class="brand-logo">Thrive</span>
+      <span class="brand-logo">80Deep</span>
+      <span class="brand-logo">LUMINA</span>
+      <span class="brand-logo">KOEN</span>
+      <span class="brand-logo">NHance</span>
+      <span class="brand-logo">Vira</span>
+      <span class="brand-logo">Arcline</span>
+      <span class="brand-logo">Solace</span>
+      <!-- set 2 (duplicate for seamless loop) -->
+      <span class="brand-logo">Thrive</span>
+      <span class="brand-logo">80Deep</span>
+      <span class="brand-logo">LUMINA</span>
+      <span class="brand-logo">KOEN</span>
+      <span class="brand-logo">NHance</span>
+      <span class="brand-logo">Vira</span>
+      <span class="brand-logo">Arcline</span>
+      <span class="brand-logo">Solace</span>
+    </div>
   </div>
 </div>
 
