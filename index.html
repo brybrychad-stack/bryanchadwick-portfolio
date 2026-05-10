@@ -556,6 +556,14 @@ p{ margin:0; }
 }
 .mg-card.is-active{ filter:blur(0); }
 .mg-card img{ width:100%; height:100%; object-fit:cover; display:block; }
+/* Inline player */
+.mg-card__player{ position:absolute; inset:0; z-index:10; display:none; background:#000; border-radius:inherit; }
+.mg-card__player iframe{ width:100%; height:100%; border:none; display:block; }
+.mg-card--playing .mg-card__player{ display:block; }
+.mg-card--playing > img,
+.mg-card--playing .mg-card__placeholder,
+.mg-card--playing .mg-card__play,
+.mg-card--playing .mg-card__info{ opacity:0; pointer-events:none; }
 .mg-card.is-active{
   border:1px solid rgba(255,255,255,.25); border-radius:20px; cursor:default;
   box-shadow:
@@ -1099,8 +1107,10 @@ p{ margin:0; }
 .vt-card.is-active{ opacity:1; transform:translateX(0) scale(1); z-index:2; }
 .vt-card.is-prev{ opacity:0; transform:translateX(-30px) scale(.95); z-index:1; pointer-events:none; }
 .vt-card.is-next{ opacity:0; transform:translateX(30px) scale(.95); z-index:1; pointer-events:none; }
-.vt-card iframe{ width:100%; height:100%; border:none; pointer-events:none; }
-.vt-card.is-active iframe{ pointer-events:auto; }
+.vt-card__player{ position:absolute; inset:0; z-index:10; display:none; background:#000; border-radius:inherit; }
+.vt-card__player iframe{ width:100%; height:100%; border:none; display:block; }
+.vt-card--playing .vt-card__player{ display:block; }
+.vt-card--playing .vt-card__placeholder{ opacity:0; pointer-events:none; }
 .vt-card__placeholder{
   width:100%; height:100%; display:flex; flex-direction:column;
   align-items:center; justify-content:center; gap:16px;
@@ -2179,10 +2189,16 @@ function makeCarousel(stageId, dotsId, prevId, nextId, videos, opts = {}){
     const mediaEl = v.noThumb
       ? `<div class="mg-card__placeholder"><div class="mg-card__placeholder-diamond"></div><div class="mg-card__placeholder-text">Click to<br>view</div><div class="mg-card__placeholder-label">${v.tag}</div></div>`
       : `<img src="${v.src}" alt="${v.title}" loading="lazy" />`;
-    card.innerHTML = `${mediaEl}${playBtn}${ctaEl}<div class="mg-card__info"><div class="mg-card__tag">${v.tag}</div><div class="mg-card__title">${v.title}</div></div>`;
+    card.innerHTML = `${mediaEl}${playBtn}${ctaEl}<div class="mg-card__info"><div class="mg-card__tag">${v.tag}</div><div class="mg-card__title">${v.title}</div></div><div class="mg-card__player"></div>`;
     card.addEventListener("click", () => {
       if (i !== active){ goTo(i); return; }
-      if (hasPlay && window._carouselOpen) window._carouselOpen(v);
+      if (hasPlay && !card.classList.contains("mg-card--playing")){
+        const src = v.youtubeId
+          ? `https://www.youtube-nocookie.com/embed/${v.youtubeId}?autoplay=1&rel=0`
+          : `https://drive.google.com/file/d/${v.driveId}/preview`;
+        card.querySelector(".mg-card__player").innerHTML = `<iframe src="${src}" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>`;
+        card.classList.add("mg-card--playing");
+      }
     });
     stage.appendChild(card);
 
@@ -2197,6 +2213,8 @@ function makeCarousel(stageId, dotsId, prevId, nextId, videos, opts = {}){
   const dots  = [...dotsEl.querySelectorAll(".mg-dot")];
 
   function goTo(idx){
+    const playing = stage.querySelector(".mg-card--playing");
+    if(playing){ playing.classList.remove("mg-card--playing"); playing.querySelector(".mg-card__player").innerHTML = ""; }
     active = ((idx % videos.length) + videos.length) % videos.length;
     render();
   }
@@ -2363,11 +2381,18 @@ function initVtCarousel(){
         </svg>
         <span>${v.label}</span>
       </div>
+      <div class="vt-card__player"></div>
     </div>`).join("");
 
   dotsEl.innerHTML = items.map((_,i)=>`<button class="vt-dot${i===0?' is-active':''}" data-i="${i}"></button>`).join("");
 
+  function stopPlaying(){
+    const p = stage.querySelector(".vt-card--playing");
+    if(p){ p.classList.remove("vt-card--playing"); p.querySelector(".vt-card__player").innerHTML=""; }
+  }
+
   function go(idx){
+    stopPlaying();
     active = (idx + items.length) % items.length;
     stage.querySelectorAll(".vt-card").forEach((c,i)=>{
       c.className = "vt-card" + (i===active?" is-active":i===(active+1)%items.length?" is-next":" is-prev");
@@ -2375,9 +2400,21 @@ function initVtCarousel(){
     dotsEl.querySelectorAll(".vt-dot").forEach((d,i)=> d.classList.toggle("is-active",i===active));
   }
 
+  stage.addEventListener("click", e=>{
+    const card = e.target.closest(".vt-card");
+    if(!card) return;
+    const idx = +card.dataset.i;
+    if(idx !== active){ go(idx); return; }
+    const v = items[idx];
+    if(v.driveId && !card.classList.contains("vt-card--playing")){
+      card.querySelector(".vt-card__player").innerHTML = `<iframe src="https://drive.google.com/file/d/${v.driveId}/preview" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>`;
+      card.classList.add("vt-card--playing");
+    }
+  });
+
   document.getElementById("vtPrev").addEventListener("click",()=>go(active-1));
   document.getElementById("vtNext").addEventListener("click",()=>go(active+1));
-  dotsEl.addEventListener("click",e=>{ if(e.target.dataset.i) go(+e.target.dataset.i); });
+  dotsEl.addEventListener("click",e=>{ if(e.target.dataset.i !== undefined) go(+e.target.dataset.i); });
 }
 
 /* ---------- Video Edit Carousel ---------- */
