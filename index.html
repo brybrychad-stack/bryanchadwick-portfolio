@@ -49,6 +49,15 @@ html.light .hero__bg-text{
   text-stroke:2px rgba(0,0,0,.18);
   color:transparent;
 }
+html.light .brand-logo{
+  filter:grayscale(1) brightness(0.3);
+  opacity:.7;
+}
+html.light .brands-strip__label{ color:rgba(0,0,0,.5); }
+html.light .brands-strip__scroll{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#fff 6%,#fff 94%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#fff 6%,#fff 94%,transparent);
+}
 html.light .mg-card{ background:var(--bg-2); }
 html.light .nav{ background:rgba(240,237,232,.85); border-bottom-color:rgba(0,0,0,.08); }
 
