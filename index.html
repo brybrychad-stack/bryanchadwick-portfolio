@@ -42,8 +42,13 @@ html.light{
   color-scheme: light;
 }
 html.light body{ background:var(--bg); color:var(--fg); }
+html.light .hero{ background:var(--bg); }
 html.light .hero::before{ background:radial-gradient(closest-side, rgba(255,16,32,.10), transparent 70%); }
-html.light .hero__bg-text{ -webkit-text-stroke-color:rgba(0,0,0,.12); }
+html.light .hero__bg-text{
+  -webkit-text-stroke:2px rgba(0,0,0,.18);
+  text-stroke:2px rgba(0,0,0,.18);
+  color:transparent;
+}
 html.light .mg-card{ background:var(--bg-2); }
 html.light .nav{ background:rgba(240,237,232,.85); border-bottom-color:rgba(0,0,0,.08); }
 
