@@ -298,9 +298,9 @@ p{ margin:0; }
   opacity:0;
   transition:opacity .5s ease;
 }
-/* Dark mode = sunglasses, light mode = regular glasses */
-html:not(.light) .hero__sunglasses{ opacity:1; }
-html.light .hero__sunglasses{ opacity:0; }
+/* Light mode = sunglasses, dark mode = regular glasses */
+html.light .hero__sunglasses{ opacity:1; }
+html:not(.light) .hero__sunglasses{ opacity:0; }
 
 /* Mode toggle button */
 .mode-toggle{
