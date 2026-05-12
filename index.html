@@ -319,6 +319,18 @@ p{ margin:0; }
   background:radial-gradient(closest-side, rgba(255,16,32,.16), transparent 70%);
   filter:blur(20px); z-index:0;
 }
+.hero__bg-text{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  font-size:clamp(120px, 22vw, 320px); font-weight:900; font-style:italic;
+  letter-spacing:-0.06em; white-space:nowrap;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,.07);
+  text-stroke:1px rgba(255,255,255,.07);
+  background:linear-gradient(180deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,.02) 100%);
+  -webkit-background-clip:text; background-clip:text;
+  pointer-events:none; user-select:none; z-index:0;
+  line-height:1;
+}
 .hero__top{
   display:flex; justify-content:space-between; align-items:flex-start; gap:40px;
   font-family:var(--f-mono); font-size:11px; letter-spacing:.14em; color:var(--muted);
@@ -1305,6 +1317,7 @@ p{ margin:0; }
      HERO
 ============================================================ -->
 <section class="hero" data-section-bg="#080808">
+  <div class="hero__bg-text" aria-hidden="true">Portfolio</div>
 
   <!-- Background tool icons scattered across hero -->
   <div class="hero__tools" aria-hidden="true">
