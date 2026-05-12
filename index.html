@@ -27,6 +27,27 @@
   --hairline-strong: rgba(255,255,255,0.16);
   --accent:    #ff1020;
   --accent-soft: rgba(255,16,32,0.16);
+}
+
+/* Light mode overrides */
+html.light{
+  --bg:        #f0ede8;
+  --bg-2:      #e4e1dc;
+  --bg-3:      #d8d5d0;
+  --fg:        #0d0d0d;
+  --fg-dim:    #3a3a3a;
+  --muted:     #7a7a7a;
+  --hairline:  rgba(0,0,0,0.08);
+  --hairline-strong: rgba(0,0,0,0.18);
+  color-scheme: light;
+}
+html.light body{ background:var(--bg); color:var(--fg); }
+html.light .hero::before{ background:radial-gradient(closest-side, rgba(255,16,32,.10), transparent 70%); }
+html.light .hero__bg-text{ -webkit-text-stroke-color:rgba(0,0,0,.12); }
+html.light .mg-card{ background:var(--bg-2); }
+html.light .nav{ background:rgba(240,237,232,.85); border-bottom-color:rgba(0,0,0,.08); }
+
+:root{
 
   --f-display: "Inter Tight", system-ui, sans-serif;
   --f-mono:    "JetBrains Mono", ui-monospace, monospace;
@@ -267,6 +288,7 @@ p{ margin:0; }
           mask-image:linear-gradient(to bottom, #000 44%, transparent 88%);
   filter:grayscale(1) drop-shadow(0 28px 64px rgba(0,0,0,.6));
 }
+/* Portrait swap */
 .hero__sunglasses{
   position:absolute; inset:0; z-index:3; pointer-events:none;
   width:100%; height:auto; display:block;
@@ -274,11 +296,26 @@ p{ margin:0; }
           mask-image:linear-gradient(to bottom, #000 44%, transparent 88%);
   filter:grayscale(1) drop-shadow(0 28px 64px rgba(0,0,0,.6));
   opacity:0;
-  transition:opacity .4s ease;
+  transition:opacity .5s ease;
 }
-.hero__comp:hover .hero__sunglasses{
-  opacity:1;
+/* Dark mode = sunglasses, light mode = regular glasses */
+html:not(.light) .hero__sunglasses{ opacity:1; }
+html.light .hero__sunglasses{ opacity:0; }
+
+/* Mode toggle button */
+.mode-toggle{
+  position:absolute; top:20px; right:var(--pad-x); z-index:10;
+  display:flex; align-items:center; gap:10px;
+  background:var(--bg-2); border:1px solid var(--hairline-strong);
+  border-radius:999px; padding:6px 14px 6px 10px;
+  font-family:var(--f-mono); font-size:11px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--muted);
+  cursor:pointer; transition:background .3s, border-color .3s, color .3s;
+  user-select:none;
 }
+.mode-toggle:hover{ border-color:var(--accent); color:var(--fg); }
+.mode-toggle__icon{ font-size:15px; line-height:1; transition:transform .4s cubic-bezier(.34,1.56,.64,1); }
+.mode-toggle:hover .mode-toggle__icon{ transform:rotate(20deg); }
 .hero__comp-tag{
   position:relative; z-index:3;
   text-align:center; margin-top:-10%;
@@ -1400,6 +1437,12 @@ p{ margin:0; }
 
   </div>
 
+  <!-- Light / Dark toggle -->
+  <button class="mode-toggle" id="modeToggle" aria-label="Toggle light/dark mode">
+    <span class="mode-toggle__icon" id="modeIcon">🌙</span>
+    <span id="modeLabel">Dark</span>
+  </button>
+
   <div class="hero__top">
     <div class="col"><span>Motion Graphics Editor</span></div>
     <div class="col" style="text-align:center;"><span>Portfolio · Vol. 04</span><span style="margin-top:6px;">2018 — 2026</span></div>
@@ -1982,6 +2025,7 @@ function init(){
   gsap.registerPlugin(ScrollTrigger);
   if (window.SplitText) gsap.registerPlugin(SplitText);
 
+  initModeToggle();
   initLenis();
   initIntro();
   initCursor();
@@ -2081,6 +2125,35 @@ function initCursor(){
 }
 
 /* ---------- Nav scrolled state ---------- */
+function initModeToggle(){
+  const html    = document.documentElement;
+  const btn     = document.getElementById("modeToggle");
+  const icon    = document.getElementById("modeIcon");
+  const label   = document.getElementById("modeLabel");
+  if(!btn) return;
+
+  const saved = localStorage.getItem("colorMode");
+  if(saved === "light") apply("light");
+  else apply("dark");
+
+  btn.addEventListener("click", ()=>{
+    apply(html.classList.contains("light") ? "dark" : "light");
+  });
+
+  function apply(mode){
+    if(mode === "light"){
+      html.classList.add("light");
+      icon.textContent  = "☀️";
+      label.textContent = "Light";
+    } else {
+      html.classList.remove("light");
+      icon.textContent  = "🌙";
+      label.textContent = "Dark";
+    }
+    localStorage.setItem("colorMode", mode);
+  }
+}
+
 function initNav(){
   const nav = document.getElementById("nav");
   ScrollTrigger.create({
