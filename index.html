@@ -304,17 +304,16 @@ html:not(.light) .hero__sunglasses{ opacity:0; }
 
 /* Mode toggle button */
 .mode-toggle{
-  position:absolute; top:20px; right:var(--pad-x); z-index:10;
-  display:flex; align-items:center; gap:10px;
+  display:flex; align-items:center; gap:8px;
   background:var(--bg-2); border:1px solid var(--hairline-strong);
-  border-radius:999px; padding:6px 14px 6px 10px;
+  border-radius:999px; padding:5px 12px 5px 9px;
   font-family:var(--f-mono); font-size:11px; letter-spacing:.1em;
   text-transform:uppercase; color:var(--muted);
   cursor:pointer; transition:background .3s, border-color .3s, color .3s;
   user-select:none;
 }
 .mode-toggle:hover{ border-color:var(--accent); color:var(--fg); }
-.mode-toggle__icon{ font-size:15px; line-height:1; transition:transform .4s cubic-bezier(.34,1.56,.64,1); }
+.mode-toggle__icon{ font-size:14px; line-height:1; transition:transform .4s cubic-bezier(.34,1.56,.64,1); }
 .mode-toggle:hover .mode-toggle__icon{ transform:rotate(20deg); }
 .hero__comp-tag{
   position:relative; z-index:3;
@@ -1342,6 +1341,10 @@ html:not(.light) .hero__sunglasses{ opacity:0; }
     <a href="#contact">Contact</a>
   </div>
   <div class="nav__right">
+    <button class="mode-toggle" id="modeToggle" aria-label="Toggle light/dark mode">
+      <span class="mode-toggle__icon" id="modeIcon">🌙</span>
+      <span id="modeLabel">Dark</span>
+    </button>
     <div class="nav__pill" aria-label="Availability">
       <span class="pulse"></span>Available · Q3
     </div>
@@ -1436,12 +1439,6 @@ html:not(.light) .hero__sunglasses{ opacity:0; }
       <svg viewBox="0 0 28 28"><path d="M8 24L8 10Q8 8 10 8Q12 8 12 10L12 8Q12 6 14 6Q16 6 16 8L16 10Q16 8 18 8Q20 8 20 10L20 24M6 24L6 16Q6 14 8 14"/><path d="M8 24L20 24"/></svg></span>
 
   </div>
-
-  <!-- Light / Dark toggle -->
-  <button class="mode-toggle" id="modeToggle" aria-label="Toggle light/dark mode">
-    <span class="mode-toggle__icon" id="modeIcon">🌙</span>
-    <span id="modeLabel">Dark</span>
-  </button>
 
   <div class="hero__top">
     <div class="col"><span>Motion Graphics Editor</span></div>
