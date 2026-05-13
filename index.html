@@ -126,8 +126,14 @@ html.light .contact__cta{ background:var(--fg); color:var(--bg); }
 html.light footer{ background:var(--bg-2); border-top-color:var(--hairline); color:var(--fg-dim); }
 
 /* Marquee */
-html.light .marquee{ border-color:var(--hairline); }
+html.light .marquee{
+  border-color:var(--hairline); background:var(--bg);
+  -webkit-mask-image:linear-gradient(90deg, transparent, #fff 8%, #fff 92%, transparent);
+          mask-image:linear-gradient(90deg, transparent, #fff 8%, #fff 92%, transparent);
+}
 html.light .marquee__item{ color:var(--fg-dim); }
+html.light .marquee__item .glyph{ opacity:.5; }
+html.light .gd-logofolio{ filter:invert(1); }
 
 /* Logo animation tiles */
 html.light .tile{ background:var(--bg-2); border-color:var(--hairline-strong); }
@@ -1803,7 +1809,7 @@ html:not(.light) .hero__sunglasses{ opacity:0; }
     </div>
     <div style="max-width:var(--maxw); margin:48px auto 0; padding:0 var(--pad-x);">
       <h3 style="font-size:clamp(36px,5.5vw,72px); font-weight:700; letter-spacing:-0.04em; line-height:.9; color:var(--fg); margin-bottom:24px;">Logo Designs</h3>
-      <img src="assets/Logofolio.png" alt="Logofolio" loading="lazy"
+      <img src="assets/Logofolio.png" alt="Logofolio" loading="lazy" class="gd-logofolio"
            style="width:100%; height:auto; display:block; border-radius:12px;" />
     </div>
   </div>
