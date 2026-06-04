@@ -3,13 +3,29 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="theme-color" content="#080808" />
+<meta name="color-scheme" content="dark light" />
 <title>Bryan Chadwick — Motion Graphics Editor</title>
 <meta name="description" content="Motion graphics editor. Brand films, title design, broadcast packages, commercials." />
 
+<!-- Open Graph -->
+<meta property="og:title" content="Bryan Chadwick — Motion Graphics Editor" />
+<meta property="og:description" content="Motion graphics editor. Brand films, title design, broadcast packages, commercials." />
+<meta property="og:type" content="website" />
+
 <link rel="icon" type="image/png" href="assets/logo-red-raw.png" />
 <link rel="apple-touch-icon" href="assets/logo-red-raw.png" />
+
+<!-- Preconnect for faster resource loading -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="dns-prefetch" href="https://drive.google.com" />
+<link rel="dns-prefetch" href="https://lh3.googleusercontent.com" />
+
+<!-- Preload critical hero assets -->
+<link rel="preload" href="assets/portrait.webp" as="image" />
+
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@900&family=Poppins:wght@900&family=Bebas+Neue&display=swap" rel="stylesheet" />
 
 <style>
@@ -160,6 +176,8 @@ html.light .nav{ background:rgba(240,237,232,.85); border-bottom-color:rgba(0,0,
 *,*::before,*::after{ box-sizing:border-box; }
 html,body{ margin:0; padding:0; }
 html{ background:var(--bg); color-scheme:dark; }
+a, button{ cursor:pointer; }
+@media(hover:none){ html, a, button, label, select, input, textarea{ cursor:auto; } }
 body{
   background:var(--bg);
   color:var(--fg);
@@ -213,24 +231,6 @@ p{ margin:0; }
 /* ============================================================
    CUSTOM CURSOR
 ============================================================ */
-.cursor{ position:fixed; top:0; left:0; pointer-events:none; z-index:9999; mix-blend-mode:difference; }
-.cursor__dot{
-  position:fixed; top:0; left:0; width:6px; height:6px; border-radius:50%;
-  background:#fff; transform:translate3d(-50%,-50%,0);
-}
-.cursor__ring{
-  position:fixed; top:0; left:0; width:36px; height:36px; border-radius:50%;
-  border:1px solid rgba(255,255,255,.7);
-  transform:translate3d(-50%,-50%,0);
-  transition:width .25s var(--ease-out), height .25s var(--ease-out), border-color .25s, background .25s;
-  display:flex; align-items:center; justify-content:center;
-  font-family:var(--f-mono); font-size:10px; letter-spacing:.12em; color:transparent;
-}
-.cursor.is-hover .cursor__ring{ width:54px; height:54px; border-color:#fff; background:rgba(255,255,255,.06); }
-.cursor.is-play .cursor__ring{ width:88px; height:88px; background:#fff; border-color:#fff; color:#000; }
-.cursor.is-play .cursor__ring::after{ content:"PLAY"; }
-.cursor.is-play .cursor__dot{ opacity:0; }
-@media (hover:none){ .cursor{ display:none; } }
 
 /* ============================================================
    INTRO LOADER
@@ -1121,7 +1121,7 @@ html:not(.light) .hero__sunglasses{ opacity:0; }
 }
 .brands-strip__track{
   display:flex; align-items:center; gap:0; white-space:nowrap;
-  will-change:transform;
+  will-change:transform; backface-visibility:hidden;
 }
 .brand-logo{
   display:inline-flex; align-items:center; justify-content:center;
@@ -1413,13 +1413,6 @@ html:not(.light) .hero__sunglasses{ opacity:0; }
   <div class="intro__bar" id="introBar"></div>
 </div>
 
-<!-- ============================================================
-     CUSTOM CURSOR
-============================================================ -->
-<div class="cursor" id="cursor" aria-hidden="true">
-  <div class="cursor__ring" id="cursorRing"></div>
-  <div class="cursor__dot" id="cursorDot"></div>
-</div>
 
 <!-- ============================================================
      NAV
@@ -1436,10 +1429,6 @@ html:not(.light) .hero__sunglasses{ opacity:0; }
     <a href="#contact">Contact</a>
   </div>
   <div class="nav__right">
-    <button class="mode-toggle" id="modeToggle" aria-label="Toggle light/dark mode">
-      <span class="mode-toggle__icon" id="modeIcon">🌙</span>
-      <span id="modeLabel">Dark</span>
-    </button>
     <div class="nav__pill" aria-label="Availability">
       <span class="pulse"></span>Available · Q3
     </div>
@@ -1542,9 +1531,15 @@ html:not(.light) .hero__sunglasses{ opacity:0; }
   </div>
 
   <div class="hero__comp">
-    <img class="hero__comp-portrait" src="assets/portrait.webp" alt="Bryan Chadwick" loading="eager" decoding="async" width="700" height="700" />
+    <img class="hero__comp-portrait" src="assets/portrait.webp" alt="Bryan Chadwick" loading="eager" decoding="async" fetchpriority="high" width="700" height="700" />
     <!-- Sunglasses hover portrait -->
     <img class="hero__sunglasses" src="assets/portrait-sunglasses.png" alt="" aria-hidden="true" />
+    <!-- Mode toggle inside portrait, above text -->
+    <button class="mode-toggle" id="modeToggle" aria-label="Toggle light/dark mode"
+      style="position:absolute; bottom:20%; left:50%; transform:translateX(-50%); z-index:4;">
+      <span class="mode-toggle__icon" id="modeIcon">🌙</span>
+      <span id="modeLabel">Dark</span>
+    </button>
     <p class="hero__comp-tag">
       <span class="hero__comp-tag-line1">I make things</span>
       <span class="hero__comp-tag-line2"><span class="accent-word">worth looking</span>.</span>
@@ -2040,10 +2035,6 @@ html:not(.light) .hero__sunglasses{ opacity:0; }
     <span class="eyebrow"><span class="bar"></span><span class="num">06</span> — Contact</span>
     <h2 data-reveal style="margin-top:24px;">Let's make<br/>something <em>move</em>.</h2>
     <div class="contact__row">
-      <div>
-        <a class="contact__email" href="mailto:bernalesian4@gmail.com" data-magnetic>bernalesian4@gmail.com<span class="arrow" style="color:var(--accent);">→</span></a>
-        <p style="margin-top:8px; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);">Working email</p>
-      </div>
       <a class="contact__cta" href="https://cal.com/bryanchadwick" data-magnetic>Book a 20-min call</a>
     </div>
   </div>
@@ -2075,10 +2066,10 @@ html:not(.light) .hero__sunglasses{ opacity:0; }
 <!-- ============================================================
      LIBRARIES — GSAP + ScrollTrigger + SplitText (free) + Lenis
 ============================================================ -->
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js" defer crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer crossorigin="anonymous"></script>
 
 <script defer>
 /* ============================================================
@@ -2118,7 +2109,6 @@ function init(){
   initModeToggle();
   initLenis();
   initIntro();
-  initCursor();
   initNav();
   initClock();
   initHero();
@@ -2191,28 +2181,6 @@ function initIntro(){
 }
 
 /* ---------- Custom cursor ---------- */
-function initCursor(){
-  if (window.matchMedia("(hover: none)").matches) return;
-  const cur  = document.getElementById("cursor");
-  const dot  = document.getElementById("cursorDot");
-  const ring = document.getElementById("cursorRing");
-  const pos  = { x: window.innerWidth/2, y: window.innerHeight/2 };
-  const ringPos = { ...pos };
-  window.addEventListener("pointermove", e => { pos.x = e.clientX; pos.y = e.clientY; });
-  gsap.ticker.add(() => {
-    gsap.set(dot,  { x: pos.x, y: pos.y });
-    ringPos.x += (pos.x - ringPos.x) * 0.18;
-    ringPos.y += (pos.y - ringPos.y) * 0.18;
-    gsap.set(ring, { x: ringPos.x, y: ringPos.y });
-  });
-  document.querySelectorAll("a, button, [data-cursor]").forEach(el => {
-    el.addEventListener("pointerenter", () => {
-      cur.classList.add("is-hover");
-      if (el.dataset.cursor === "play") cur.classList.add("is-play");
-    });
-    el.addEventListener("pointerleave", () => cur.classList.remove("is-hover", "is-play"));
-  });
-}
 
 /* ---------- Nav scrolled state ---------- */
 function initModeToggle(){
@@ -2544,14 +2512,14 @@ function initBrandsScroll(){
   if(!track) return;
   let x = 0;
   const speed = 0.6;
-  function tick(){
+  /* single global RAF — also drives cursor ring */
+  (function tick(){
     x -= speed;
     const half = track.scrollWidth / 2;
     if(Math.abs(x) >= half) x = 0;
     track.style.transform = `translateX(${x}px)`;
     requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
+  })();
 }
 
 function initVtCarousel(){
